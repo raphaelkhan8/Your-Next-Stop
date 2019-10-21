@@ -7,11 +7,14 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
     "@agm/core": "^1.0.0",
+    "@angular/cli": "~8.3.12",
+    "@angular/compiler-cli": "~8.2.11",
     "@angular/animations": "~8.2.11",
     "@angular/common": "~8.2.11",
     "@angular/compiler": "~8.2.11",
@@ -43,6 +46,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "rxjs": "~6.5.3",
     "sequelize": "^5.19.2",
+    "typescript": "~3.5.3",
     "tslib": "^1.10.0",
     "web-animations-js": "^2.3.2",
     "zone.js": "^0.10.2"
