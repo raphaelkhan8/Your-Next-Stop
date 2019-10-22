@@ -19,10 +19,7 @@ import { NavbarService } from '../services/navbar.service';
   templateUrl: './route.component.html',
   styleUrls: ['./route.component.scss']
 })
-
-
 export class RouteComponent implements OnInit, OnDestroy {
-
   @Output() public onClosing = new EventEmitter<string>();
 
   currentUser = localStorage.getItem('userId');
@@ -38,13 +35,14 @@ export class RouteComponent implements OnInit, OnDestroy {
     dateEnd: new Date,
     userId: JSON.parse(this.currentUser),
   }
+  
   private isoDate = {
     start: '',
     end: ''
-  }
+  };
   public show = [0];
   public suggestions = [];
-  
+
   public settings = {
     positionStrategy: new ConnectedPositioningStrategy({
       closeAnimation: null,
@@ -52,16 +50,16 @@ export class RouteComponent implements OnInit, OnDestroy {
       verticalDirection: 0,
       verticalStartPoint: 0
     })
-  }
+  };
   inputSubscription;
   constructor(
     private trips: TripsService,
     private route: RouteService,
     private router: PreviousRouteService,
-    private navBar: NavbarService,
-    ) {}
-  @ViewChild(MapComponent, {static: false}) public map: MapComponent;
-  
+    private navBar: NavbarService
+  ) {}
+  @ViewChild(MapComponent, { static: false }) public map: MapComponent;
+
   ngOnInit() {
     this.navBar.updateTitle('Route');
     const previousPage = this.router.getPreviousUrl();
@@ -70,7 +68,7 @@ export class RouteComponent implements OnInit, OnDestroy {
       this.fromTripsSubmit();
     }
   }
-  
+
   public onSubmit() {
     this.map.setRoute(this.form);
     // this.submitTrip(this.form);
@@ -94,7 +92,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     let input;
     if (index) input = this.form[field][index];
     else input = this.form[field];
-    
+
     if (input.length) {
       this.inputSubscription = from(input)
       .pipe(
@@ -103,7 +101,7 @@ export class RouteComponent implements OnInit, OnDestroy {
           (text) => {
             // console.log('FORMMMMM', this.form);
             if (field === 'origin') {
-              return this.route.autoSuggestion(input, this.map.currentPosition)
+              return this.route.autoSuggestion(input, this.map.currentPosition);
             } else {
               return this.route.autoSuggestion(input, '')
             }}))
@@ -162,11 +160,17 @@ export class RouteComponent implements OnInit, OnDestroy {
     let month = isoDate.slice(6, 8);
     if (month[0] === 0) month = month.slice(1);
     let year = isoDate.slice(1, 5);
-    
-    return `${month}/${day}/${year}`
+
+    return `${month}/${day}/${year}`;
+  }
+
+  chooseCategory() {
+    console.log('choose category');
   }
 
   ngOnDestroy() {
-    if (this.inputSubscription) { this.inputSubscription.unsubscribe(); }
+    if (this.inputSubscription) {
+      this.inputSubscription.unsubscribe();
+    }
   }
 }
