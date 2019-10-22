@@ -83,8 +83,8 @@ export class ExploreComponent implements OnInit {
       return this.map.nearbyPlaces.filter((place, index) => {
         if (place.interest === category) {
           console.log('Image Index', index);
-          console.log('Filtered Places:', this.places, 'Filtered Images:', this.images);
           this.loadImages(index);
+          console.log('Filtered Places:', this.places, 'Filtered Images:', this.images);
         }
       });
     }
