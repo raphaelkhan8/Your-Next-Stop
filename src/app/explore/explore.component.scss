@@ -1,5 +1,6 @@
 @import '~igniteui-angular/lib/core/styles/themes/index';
 
+$razzle-dazzle-rose: #ff2ad2;
 $colorful-card: igx-card-theme(
   $background: #353A50,
   $header-text-color: #ffffff,
@@ -69,6 +70,7 @@ $colorful-card: igx-card-theme(
   height: 56px;
   width: 65px;
   margin: 1em;
+  cursor: pointer;
 }
 
 igx-carousel {
@@ -86,4 +88,12 @@ button {
 
 i {
   margin-top: 5px;
+}
+
+.igx-chip__item {
+  height: 50px
+}
+
+.category:hover {
+  color: $razzle-dazzle-rose;
 }

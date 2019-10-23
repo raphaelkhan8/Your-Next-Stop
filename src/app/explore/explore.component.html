@@ -1,5 +1,6 @@
 <div class="map-wrapper">
-        <app-map (placesLoaded)="loadPlaces()" (imagesLoaded)="loadImages($event)" (markerClicked)="mapMarkerClicked($event)"></app-map>
+  <app-map (placesLoaded)="loadPlaces()" (imagesLoaded)="loadImages($event)" (markerClicked)="mapMarkerClicked($event)">
+  </app-map>
 </div>
 
 <section class="chips-container">
@@ -48,7 +49,7 @@
           <igx-card-media (click)="navigateWithState(place.placeId)" height="300px">
             <ng-container *ngIf="images.length">
               <img [src]="images[i]">
-              </ng-container>
+            </ng-container>
           </igx-card-media>
         </igx-card>
       </div>

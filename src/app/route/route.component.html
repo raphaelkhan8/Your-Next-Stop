@@ -172,7 +172,7 @@
   </igx-time-picker> -->
   <!---------------------------- places of interests buttons ----------------------------------->
   <section class="chips-places">
-    <igx-card class="chips" (click)="chooseCategory()">
+    <igx-card class="chips" [ngClass]="{'category': categoryColor}" (click)="chooseCategory()">
       <i class="fas fa-grin fa-3x"></i>
       <span>Amusement Park</span>
     </igx-card>

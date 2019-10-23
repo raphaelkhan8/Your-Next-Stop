@@ -1,108 +1,55 @@
 <!-- '/route' map -->
-<agm-map *ngIf="snapshotUrl === '/route' && currentPosition"
-[latitude]="currentPosition.lat"
-[longitude]="currentPosition.lng"
-[zoom]="12"
-[styles]="styles"
-[disableDefaultUI]="true"
-(mapClick)="showClickedPosition($event)"
->
-  
-    <agm-direction *ngIf="origin && destination"
-    [origin]="origin" 
-    [destination]="destination" 
-    [waypoints]="waypoints" 
-    [renderOptions]="renderOptions"
-    >
-    </agm-direction>
-    <agm-marker 
-    [latitude]="currentPosition.lat"
-    [longitude]="currentPosition.lng"
-    [iconUrl]="{
+<agm-map *ngIf="snapshotUrl === '/route' && currentPosition" [latitude]="currentPosition.lat"
+  [longitude]="currentPosition.lng" [zoom]="12" [styles]="styles" [disableDefaultUI]="true"
+  (mapClick)="showClickedPosition($event)">
+
+  <agm-direction *ngIf="origin && destination" [origin]="origin" [destination]="destination" [waypoints]="waypoints"
+    [renderOptions]="renderOptions">
+  </agm-direction>
+  <agm-marker [latitude]="currentPosition.lat" [longitude]="currentPosition.lng" [iconUrl]="{
         url: '../assets/icons/pink star maps marker.png',
         scaledSize: {
             width: 50,
             height: 50
-        }}"
-    >
-        <agm-info-window
-        [maxWidth]=350
-        [disableAutoPan]="true"
-        [isOpen]="true"
-        >
-        You are here
-        </agm-info-window>
-
-    </agm-marker>  
-
+        }}">
+    <agm-info-window [maxWidth]=350 [disableAutoPan]="true" [isOpen]="true">
+      You are here
+    </agm-info-window>
+  </agm-marker>
 </agm-map>
 
 <!-- '/explore' map -->
-<agm-map *ngIf="snapshotUrl === '/explore' && currentPosition"
-[latitude]="currentPosition.lat"
-[longitude]="currentPosition.lng"
-[styles]="styles"
-[zoom]="14" 
-[disableDefaultUI]="true"
-(mapClick)="showClickedPosition($event)"
-> 
-<div *ngIf="nearbyPlaces">
-    <agm-marker *ngFor="let place of nearbyPlaces; let i = index"
-    [latitude]="place.lat" 
-    [longitude]="place.lng" 
-    [openInfoWindow]="true"
-    (markerClick)="markerClick(i)"
-    [markerClickable]="true"
-    [iconUrl]="{
+<agm-map *ngIf="snapshotUrl === '/explore' && currentPosition" [latitude]="currentPosition.lat"
+  [longitude]="currentPosition.lng" [styles]="styles" [zoom]="14" [disableDefaultUI]="true"
+  (mapClick)="showClickedPosition($event)">
+  <div *ngIf="nearbyPlaces">
+    <agm-marker *ngFor="let place of nearbyPlaces; let i = index" [latitude]="place.lat" [longitude]="place.lng"
+      [openInfoWindow]="true" (markerClick)="markerClick(i)" [markerClickable]="true" [iconUrl]="{
         url: place.clicked ? '../assets/icons/yellow maps marker.png' : '../assets/icons/red maps marker.png',
         scaledSize: {
             width: 30,
             height: 48
-        }}"
-    
-    >
-    <agm-info-window
-    [isOpen]="true"
-    *ngIf="place.clicked"
-    [disableAutoPan]="false"
-    [isOpen]="false"
-    [maxWidth]=500
-    >
-    <h5 style="color:black;">
-            {{place.name}}
-    </h5>  
-    <hr style="border-color:black;">
-    {{place.address}}<br>
-    rating: {{place.rating}}<br>
-    <a style ="font-size:0.9rem;"
-    href="http://maps.google.com/?q={{place.address + place.name}}"  target="_blank">Open in Google Maps</a>
-    </agm-info-window>
-   
+        }}">
+      <agm-info-window [isOpen]="true" *ngIf="place.clicked" [disableAutoPan]="false" [isOpen]="false" [maxWidth]=500>
+        <h5 style="color:black;">
+          {{place.name}}
+        </h5>
+        {{place.address}}<br>
+        <a style="font-size:0.9rem;" href="http://maps.google.com/?q={{place.address + place.name}}"
+          target="_blank">Open in Google Maps</a>
+      </agm-info-window>
     </agm-marker>
-</div>
-    <agm-marker
-    [latitude]="currentPosition.lat"
-    [longitude]="currentPosition.lng"
-    [iconUrl]="{
+  </div>
+  <agm-marker [latitude]="currentPosition.lat" [longitude]="currentPosition.lng" [iconUrl]="{
         url: '../assets/icons/pink star maps marker.png',
         scaledSize: {
             width: 50,
             height: 50
-        }}"
-    >
-        <agm-info-window
-        [isOpen]="false"
-        [disableAutoPan]="true"
-        >
-          <h5 style="color:black;">
-                You are here
-          </h5>  
-        </agm-info-window>
-   
-
-    </agm-marker>
-
+        }}">
+    <agm-info-window [isOpen]="false" [disableAutoPan]="true">
+      <h5 style="color:black;">
+        You are here
+      </h5>
+    </agm-info-window>
+  </agm-marker>
 </agm-map>
-
-
-    
