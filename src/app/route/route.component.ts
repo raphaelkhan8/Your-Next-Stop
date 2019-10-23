@@ -29,13 +29,24 @@ export class RouteComponent implements OnInit, OnDestroy {
   form = {
     origin: '',
     destination: '',
-    route: '', 
+    route: '',
     waypoints: ['', '', '', '', ''],
-    dateStart: new Date,
-    dateEnd: new Date,
-    userId: JSON.parse(this.currentUser),
-  }
-  
+    dateStart: new Date(),
+    dateEnd: new Date(),
+    userId: JSON.parse(this.currentUser)
+  };
+
+  category = {
+    amusement: false,
+    campground: false,
+    lodging: false,
+    museum: false,
+    park: false,
+    shopping: false,
+    tourist: false,
+    zoo: false
+  };
+
   private isoDate = {
     start: '',
     end: ''
@@ -54,7 +65,7 @@ export class RouteComponent implements OnInit, OnDestroy {
 
   inputSubscription;
   categoryColor = false;
-  
+
   constructor(
     private trips: TripsService,
     private route: RouteService,
@@ -76,19 +87,18 @@ export class RouteComponent implements OnInit, OnDestroy {
     this.map.setRoute(this.form);
     // this.submitTrip(this.form);
     let formStorage = JSON.stringify(this.form);
-    localStorage.setItem('form', formStorage)
+    localStorage.setItem('form', formStorage);
     // console.log('@@form@@', localStorage.form)
   }
-  
-  public submitTrip(form) { 
+
+  public submitTrip(form) {
     form.route = this.form.origin + ' -> ' + this.form.destination;
     form.waypoints = this.form.waypoints;
     // console.log('TRIP ID', this.tripId);
     // console.log('trip form being sent to ROUTE SERVICE', form);
-    return this.route.saveTrips(form, this.tripId)
-    .subscribe(userTrip => {
+    return this.route.saveTrips(form, this.tripId).subscribe(userTrip => {
       console.log('Return from submitTrip function', userTrip);
-    })
+    });
   }
 
   public onKey(field, index) {
@@ -98,55 +108,59 @@ export class RouteComponent implements OnInit, OnDestroy {
 
     if (input.length) {
       this.inputSubscription = from(input)
-      .pipe(
-        debounceTime(250),
-        switchMap(
-          (text) => {
+        .pipe(
+          debounceTime(250),
+          switchMap(text => {
             // console.log('FORMMMMM', this.form);
             if (field === 'origin') {
               return this.route.autoSuggestion(input, this.map.currentPosition);
             } else {
-              return this.route.autoSuggestion(input, '')
-            }}))
-          .subscribe((suggestions: any) => {
-            // console.log(suggestions)
-            this.suggestions = suggestions;
+              return this.route.autoSuggestion(input, '');
+            }
           })
-        }
-      }
-      
-      public onClick() {
-        this.suggestions = [];
-        if (this.inputSubscription) { this.inputSubscription.unsubscribe(); }
-      }
-      
-      public onDateSelection(value) {
-        if(value === 'startValue') {
-          this.form.dateStart = value;
-        }
-        this.form.dateEnd = value;
-        console.log(this.form.dateEnd);
-      }
-      
-      public autosuggestClick(suggestion) {
-        
-      }
+        )
+        .subscribe((suggestions: any) => {
+          // console.log(suggestions)
+          this.suggestions = suggestions;
+        });
+    }
+  }
 
-      public fromTripsSubmit() {
-        console.log('PARSLEY', this.parsedTrip);
-        this.form.origin = this.parsedTrip[0].route.split('->')[0];
-        this.form.destination = this.parsedTrip[0].route.split('-> ')[1];
-        this.form.dateStart = new Date(this.parsedTrip[0].dateStart);
-        this.form.dateEnd = new Date(this.parsedTrip[0].dateEnd);
-        this.form.userId = JSON.parse(this.currentUser);
-        this.form.route = this.parsedTrip[0].route;
-        this.form.waypoints = this.parsedTrip[0].wayPoints || [''];
-        this.tripId = this.parsedTrip[0].id;
-        console.log('Selected trip info from trip page that will populate this form', this.form);
-        //console.log(this.map.setRoute);
-        setTimeout(() => this.map.setRoute(this.form), 1000);
-        // setTimeout(() => localStorage.removeItem('trip'), 1500);
-      }
+  public onClick() {
+    this.suggestions = [];
+    if (this.inputSubscription) {
+      this.inputSubscription.unsubscribe();
+    }
+  }
+
+  public onDateSelection(value) {
+    if (value === 'startValue') {
+      this.form.dateStart = value;
+    }
+    this.form.dateEnd = value;
+    console.log(this.form.dateEnd);
+  }
+
+  public autosuggestClick(suggestion) {}
+
+  public fromTripsSubmit() {
+    console.log('PARSLEY', this.parsedTrip);
+    this.form.origin = this.parsedTrip[0].route.split('->')[0];
+    this.form.destination = this.parsedTrip[0].route.split('-> ')[1];
+    this.form.dateStart = new Date(this.parsedTrip[0].dateStart);
+    this.form.dateEnd = new Date(this.parsedTrip[0].dateEnd);
+    this.form.userId = JSON.parse(this.currentUser);
+    this.form.route = this.parsedTrip[0].route;
+    this.form.waypoints = this.parsedTrip[0].wayPoints || [''];
+    this.tripId = this.parsedTrip[0].id;
+    console.log(
+      'Selected trip info from trip page that will populate this form',
+      this.form
+    );
+    //console.log(this.map.setRoute);
+    setTimeout(() => this.map.setRoute(this.form), 1000);
+    // setTimeout(() => localStorage.removeItem('trip'), 1500);
+  }
 
   addWaypointInput() {
     this.show[this.show.length] = this.show.length;
@@ -167,9 +181,8 @@ export class RouteComponent implements OnInit, OnDestroy {
     return `${month}/${day}/${year}`;
   }
 
-  chooseCategory() {
-    this.categoryColor = !this.categoryColor;
-    console.log('choose category');
+  chooseCategory(selected) {
+    this.category[selected] = !this.category[selected];
   }
 
   ngOnDestroy() {
