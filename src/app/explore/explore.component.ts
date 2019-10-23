@@ -45,19 +45,19 @@ export class ExploreComponent implements OnInit {
   }
 
   loadPlaces() {
-      if (!this.placesSubscription){
-        // console.log('Map Nearby Places', this.map.nearbyPlaces);
-        this.placesSubscription = from(this.map.nearbyPlaces)
-        .subscribe(place => {
-          // console.log('PLACE', place);
-          this.places.push(place);
+    if (!this.placesSubscription) {
+    // console.log('Map Nearby Places', this.map.nearbyPlaces);
+    this.placesSubscription = from(this.map.nearbyPlaces)
+      .subscribe(place => {
+        // console.log('PLACE', this.placesSubscription);
+        this.places.push(place);
       });
-      }
+    }
   }
 
   loadImages(index) {
-    // console.log('IMAGES LOADED', this.map.images);
     this.images[index] = this.map.images[index].photos[0];
+    // console.log('IMAGES LOADED', this.map.images);
   }
 
   mapMarkerClicked(i) {
@@ -78,27 +78,21 @@ export class ExploreComponent implements OnInit {
   }
 
   chooseCategory(category) {
-      const filteredPlaces = this.map.nearbyPlaces.filter(place => place.interest === category);
-      this.places = filteredPlaces;
-      return this.map.nearbyPlaces.filter((place, index) => {
-        if (place.interest === category) {
-          console.log('Image Index', index);
-          this.loadImages(index);
-          console.log('Filtered Places:', this.places, 'Filtered Images:', this.images);
-        }
-      });
-    }
-    // const filteredImages = this.map.nearbyPlaces.filter((place, index) => {
-    //   if (place.interest === category) {
-    //     console.log('Image Index', index);
-    //     return this.loadImages(index);
-    //   }
-    // });
-    // const filteredPlaces = this.map.nearbyPlaces.filter(place => place.interest === category);
-    // this.places = filteredPlaces;
-    // this.images = filteredImages;
+    const indexes = [];
+    let filteredImages = [];
+    const filteredPlaces = this.map.nearbyPlaces.filter((place, index) => {
+      if (place.interest === category) {
+        indexes.push(index);
+        return place;
+      }
+    });
+      for (let i = 0; i < indexes.length; i++) {
+        filteredImages.push(this.map.images[indexes[i]].photos[0]);
+      }
+    this.places = filteredPlaces;
+    this.images = filteredImages;
     // console.log('Filtered Places:', this.places, 'Filtered Images:', this.images);
-// }
+  }
 
   updateNavbar() {
     this.navBar.updateTitle(this.title);
