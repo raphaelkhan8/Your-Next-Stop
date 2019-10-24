@@ -41,8 +41,9 @@ export class RouteService {
     })
   }
 
-  saveTrips(form, tripId) {
+  saveTrips(form, tripId, milesTraveled) {
     form.tripId = tripId;
+    form.milesTraveled = milesTraveled
     console.log('form info that will be saved to the DATABASE', form);
     return this.http.post(this.addTripEndpoint, form);
   }
