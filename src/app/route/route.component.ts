@@ -36,16 +36,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     userId: JSON.parse(this.currentUser)
   };
 
-  category = {
-    amusement: false,
-    campground: false,
-    lodging: false,
-    museum: false,
-    park: false,
-    shopping: false,
-    tourist: false,
-    zoo: false
-  };
+  category: string = '';
 
   private isoDate = {
     start: '',
@@ -64,7 +55,6 @@ export class RouteComponent implements OnInit, OnDestroy {
   };
 
   inputSubscription;
-  categoryColor = false;
 
   constructor(
     private trips: TripsService,
@@ -182,7 +172,7 @@ export class RouteComponent implements OnInit, OnDestroy {
   }
 
   chooseCategory(selected) {
-    this.category[selected] = !this.category[selected];
+    this.category = selected;
   }
 
   ngOnDestroy() {

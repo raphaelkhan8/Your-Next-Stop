@@ -26,6 +26,7 @@ export class DetailsComponent implements OnInit {
     phone: any, 
     address: any,
     status?: string,
+    formattedPhone?: string
   };
   selectedPlacePhoto: null;
   currentUser = localStorage.getItem('userId');
@@ -61,6 +62,8 @@ export class DetailsComponent implements OnInit {
     this.location.getPlaceInfo(place, currentUser)
     .subscribe((info: any) => {
       this.selectedPlaceInfo = info;
+      const phone = this.selectedPlaceInfo.phone;
+      this.selectedPlaceInfo.formattedPhone = this.formatPhoneNumber(phone);
       
       if (info.status === 'liked') {
         this.selectedPlaceInfo.status = 'liked';
@@ -106,6 +109,13 @@ export class DetailsComponent implements OnInit {
       .subscribe(response => {
         console.log('UPVOTE response', response);
       });
+  }
+
+  formatPhoneNumber(number) {
+    const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let formattedNumber = '';
+    number.split('').forEach(string => {if (numbers.indexOf(string) !== -1) { formattedNumber += string; }})
+    return formattedNumber;
   }
 
 }
