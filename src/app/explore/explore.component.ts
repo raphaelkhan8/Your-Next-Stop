@@ -15,11 +15,10 @@ import { NavbarService } from '../services/navbar.service';
 })
 export class ExploreComponent implements OnInit, OnChanges {
   @ViewChild(MapComponent, { static: false }) private map: MapComponent;
-  @ViewChild(IgxCarouselComponent, { static: false })
+  @ViewChild(IgxCarouselComponent, { static: false }) private carousel: IgxCarouselComponent;
   @ViewChild(AgmInfoWindow, { static: false })
   
   public shouldLoad;
-  private carousel: IgxCarouselComponent;
   private infoWindow: AgmInfoWindow;
   public places: Array<any> = [];
   public images: Array<string> = [];
@@ -58,7 +57,6 @@ export class ExploreComponent implements OnInit, OnChanges {
       this.personalizedPlacesSubscription = from(this.map.nearbyPlaces).subscribe(place => {
         this.places.push(place);
       });
-   
   }
 
   loadImages(index) {
