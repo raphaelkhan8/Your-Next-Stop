@@ -1,3 +1,4 @@
+import { DetailsComponent } from './../details/details.component';
 import { Component, OnInit } from '@angular/core';
 import { TripsService } from '../services/trips.service';
 import { NavbarService } from '../services/navbar.service';
@@ -14,7 +15,9 @@ export class TripsComponent implements OnInit {
     destination: '',
     wayPoints: [],
     start: '',
-    end: ''
+    end: '',
+    distance: '',
+    duration: ''
   };
 
   eta;
@@ -38,18 +41,23 @@ export class TripsComponent implements OnInit {
     this.getAllTrips();
   }
 
+  getEta(origin, destination) {
+    this.trips.getETA(origin, destination).subscribe((response: any): void => {
+      this.details.distance = response.distance;
+      this.details.duration = response.duration;
+      })
+  }
+
   tripDetails(trip) {
     this.details.origin = trip.route.split('->')[0];
     this.details.destination = trip.route.split('->')[1];
     // ${trip.wayPoints.filter(waypoint => waypoint.length)
     //   .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
     // this.details.wayPoints;
-    this.details.start = new Date(
-      trip.dateStart.split('T')[0]
-    ).toDateString();
-    this.details.end = new Date(
-      trip.dateEnd.split('T')[0]
-    ).toDateString();
+    this.details.start = new Date(trip.dateStart.split('T')[0]).toDateString();
+    this.details.end = new Date(trip.dateEnd.split('T')[0]).toDateString();
+    this.getEta(this.details.origin, this.details.destination);
+    console.log(this.details)
   }
 
   getAllTrips() {
