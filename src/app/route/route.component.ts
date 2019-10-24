@@ -2,7 +2,6 @@
 import { Component, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { TripsService } from '../services/trips.service';
 import { MapComponent } from '../map/map.component';
-import { DynamicInputComponent } from './dynamic-input/dynamic-input.component';
 import { RouteService } from '../services/route.service';
 import { PreviousRouteService } from '../services/router.service';
 import { 
