@@ -9,7 +9,7 @@ import { NavbarService } from '../services/navbar.service';
 export class TripsComponent implements OnInit {
   currentUser = localStorage.getItem('userId');
 
-  upcomingDetails = {
+  details = {
     origin: '',
     destination: '',
     wayPoints: [],
@@ -17,21 +17,7 @@ export class TripsComponent implements OnInit {
     end: ''
   };
 
-  currentDetails = {
-    origin: '',
-    destination: '',
-    wayPoints: [],
-    start: '',
-    end: ''
-  };
-
-  previousDetails = {
-    origin: '',
-    destination: '',
-    wayPoints: [],
-    start: '',
-    end: ''
-  };
+  eta;
 
   public upcoming = [];
   public current = [];
@@ -52,44 +38,16 @@ export class TripsComponent implements OnInit {
     this.getAllTrips();
   }
 
-  currentTrip(trip) {
-    this.currentDetails.origin = trip.route.split('->')[0];
-    this.currentDetails.destination = trip.route.split('->')[1];
+  tripDetails(trip) {
+    this.details.origin = trip.route.split('->')[0];
+    this.details.destination = trip.route.split('->')[1];
     // ${trip.wayPoints.filter(waypoint => waypoint.length)
     //   .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
-    // this.upcomingDetails.wayPoints;
-    this.currentDetails.start = new Date(
+    // this.details.wayPoints;
+    this.details.start = new Date(
       trip.dateStart.split('T')[0]
     ).toDateString();
-    this.currentDetails.end = new Date(
-      trip.dateEnd.split('T')[0]
-    ).toDateString();
-  }
-
-  upcomingTrip(trip) {
-    this.upcomingDetails.origin = trip.route.split('->')[0];
-    this.upcomingDetails.destination = trip.route.split('->')[1];
-    // ${trip.wayPoints.filter(waypoint => waypoint.length)
-    //   .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
-    // this.upcomingDetails.wayPoints;
-    this.upcomingDetails.start = new Date(
-      trip.dateStart.split('T')[0]
-    ).toDateString();
-    this.upcomingDetails.end = new Date(
-      trip.dateEnd.split('T')[0]
-    ).toDateString();
-  }
-
-  previousTrip(trip) {
-    this.previousDetails.origin = trip.route.split('->')[0];
-    this.previousDetails.destination = trip.route.split('->')[1];
-    // ${trip.wayPoints.filter(waypoint => waypoint.length)
-    //   .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
-    // this.upcomingDetails.wayPoints;
-    this.previousDetails.start = new Date(
-      trip.dateStart.split('T')[0]
-    ).toDateString();
-    this.previousDetails.end = new Date(
+    this.details.end = new Date(
       trip.dateEnd.split('T')[0]
     ).toDateString();
   }
