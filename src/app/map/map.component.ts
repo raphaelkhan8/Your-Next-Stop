@@ -100,7 +100,6 @@ export class MapComponent implements OnInit, OnDestroy {
   }
   //gets top photo for each place
   getPlacePhoto(placeCoords, index) {
-    // if (!this.images[index]) {
       this.imageSubscription = this.locationService
         .getPlacePhoto(placeCoords)
         .pipe(distinct())
@@ -108,13 +107,8 @@ export class MapComponent implements OnInit, OnDestroy {
           this.images[index] = photos || [
             'http://www.moxmultisport.com/wp-content/uploads/no-image.jpg'
           ];
-          // if (this.images.length) {
-            //this number will need to be dynamic in the future (ncategories * nplaces)
             this.imagesLoaded.emit(index);
-            // console.log('images', this.images)
-          // }
         });
-    // }
   }
 
   markerClick(index, fromSlide) {
