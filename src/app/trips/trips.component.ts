@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DetailsComponent } from './../details/details.component';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TripsService } from '../services/trips.service';
 import { NavbarService } from '../services/navbar.service';
 @Component({
@@ -6,8 +7,21 @@ import { NavbarService } from '../services/navbar.service';
   templateUrl: './trips.component.html',
   styleUrls: ['./trips.component.scss']
 })
-export class TripsComponent implements OnInit {
+export class TripsComponent implements OnInit, OnDestroy {
   currentUser = localStorage.getItem('userId');
+
+  details = {
+    origin: '',
+    destination: '',
+    wayPoints: [],
+    start: '',
+    end: '',
+    distance: '',
+    duration: ''
+  };
+
+  etaSubscription;
+
   public upcoming = [];
   public current = [];
   public previous = [];
@@ -16,8 +30,8 @@ export class TripsComponent implements OnInit {
 
   public editTrip(event, trip) {
     // console.log('TRIP SELECTED FROM TRIPS PAGE GOING INTO LOCALSTORAGE', trip);
-    let storageTrip = JSON.stringify(trip)
-    localStorage.setItem("trip", storageTrip);
+    let storageTrip = JSON.stringify(trip);
+    localStorage.setItem('trip', storageTrip);
     event.dialog.close();
     window.location.href = '/route';
   }
@@ -27,13 +41,23 @@ export class TripsComponent implements OnInit {
     this.getAllTrips();
   }
 
-  interpolate(trip) {
-    return `Origin: ${trip.route.split('->')[0]}
-            ${trip.wayPoints.filter(waypoint => waypoint.length)
-              .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
-            Destination: ${trip.route.split('->')[1]}
-            Start Date: ${trip.dateStart.split('T')[0]}
-            End Date: ${trip.dateEnd.split('T')[0]}`
+  getEta(origin, destination) {
+    this.trips.getETA(origin, destination).subscribe((response: any): void => {
+      this.details.distance = response.distance;
+      this.details.duration = response.duration;
+    });
+  }
+
+  tripDetails(trip) {
+    this.details.origin = trip.route.split('->')[0];
+    this.details.destination = trip.route.split('->')[1];
+    // ${trip.wayPoints.filter(waypoint => waypoint.length)
+    //   .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
+    // this.details.wayPoints;
+    this.details.start = new Date(trip.dateStart.split('T')[0]).toDateString();
+    this.details.end = new Date(trip.dateEnd.split('T')[0]).toDateString();
+    this.getEta(this.details.origin, this.details.destination);
+    console.log(this.details);
   }
 
   getAllTrips() {
@@ -52,5 +76,11 @@ export class TripsComponent implements OnInit {
           }
         });
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.etaSubscription) {
+      this.etaSubscription.unsubscribe();
+    }
   }
 }

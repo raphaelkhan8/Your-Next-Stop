@@ -76,7 +76,6 @@ export class LocationService {
   }
 
   public getPlacePhoto(coordinates) {
-   
     return this.http.get(`${environment.BASE_API_URL}/yelpAPI`, {
       params: new HttpParams()
       .set('latitude', coordinates.lat)

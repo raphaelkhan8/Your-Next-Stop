@@ -66,7 +66,7 @@ export class RouteComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.navBar.updateTitle('Route');
     const previousPage = this.router.getPreviousUrl();
-    console.log('PASTTTTTT', previousPage);
+    // console.log('PASTTTTTT', previousPage);
     if (previousPage === '/route' && this.parsedTrip.length) {
       this.fromTripsSubmit();
     }
@@ -86,7 +86,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     // console.log('TRIP ID', this.tripId);
     // console.log('trip form being sent to ROUTE SERVICE', form);
     return this.route.saveTrips(form, this.tripId).subscribe(userTrip => {
-      console.log('Return from submitTrip function', userTrip);
+      // console.log('Return from submitTrip function', userTrip);
     });
   }
 
@@ -127,13 +127,13 @@ export class RouteComponent implements OnInit, OnDestroy {
       this.form.dateStart = value;
     }
     this.form.dateEnd = value;
-    console.log(this.form.dateEnd);
+    // console.log(this.form.dateEnd);
   }
 
   public autosuggestClick(suggestion) {}
 
   public fromTripsSubmit() {
-    console.log('PARSLEY', this.parsedTrip);
+    // console.log('PARSLEY', this.parsedTrip);
     this.form.origin = this.parsedTrip[0].route.split('->')[0];
     this.form.destination = this.parsedTrip[0].route.split('-> ')[1];
     this.form.dateStart = new Date(this.parsedTrip[0].dateStart);
@@ -142,10 +142,10 @@ export class RouteComponent implements OnInit, OnDestroy {
     this.form.route = this.parsedTrip[0].route;
     this.form.waypoints = this.parsedTrip[0].wayPoints || [''];
     this.tripId = this.parsedTrip[0].id;
-    console.log(
-      'Selected trip info from trip page that will populate this form',
-      this.form
-    );
+    // console.log(
+    //   'Selected trip info from trip page that will populate this form',
+    //   this.form
+    // );
     //console.log(this.map.setRoute);
     setTimeout(() => this.map.setRoute(this.form), 1000);
     // setTimeout(() => localStorage.removeItem('trip'), 1500);
