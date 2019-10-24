@@ -26,11 +26,15 @@
       </div>
       <div class="line-wrapper">
         <igx-icon fontSet="material">computer</igx-icon>
-        <h3 igxCardHeaderSubtitle>{{selectedPlaceInfo.website}}</h3>
+        <a style="color: inherit;" href={{selectedPlaceInfo.website}} target="_blank">
+          <h3 igxCardHeaderSubtitle>{{selectedPlaceInfo.website}}</h3>
+        </a>
       </div>
       <div class="line-wrapper">
         <igx-icon fontSet="material">phone</igx-icon>
-        <h3 igxCardHeaderSubtitle>{{selectedPlaceInfo.phone}}</h3>
+        <a style="color: inherit;" href="tel:{{selectedPlaceInfo.formattedPhone}}">
+            <h3 igxCardHeaderSubtitle>{{selectedPlaceInfo.phone}}</h3>
+        </a>
       </div>
       <div class="line-wrapper">
         <igx-icon fontSet="material">location_city</igx-icon>

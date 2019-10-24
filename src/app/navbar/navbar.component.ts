@@ -14,8 +14,6 @@ import {
 import { NavbarService } from '../services/navbar.service';
 import { Observable } from 'rxjs';
 
-const CURRENT_VIEW = 'Ignite UI for Angular';
-
 @Component({
   providers: [
     Location,
