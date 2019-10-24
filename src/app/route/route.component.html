@@ -133,7 +133,7 @@
     </igx-drop-down-item>
   </igx-drop-down>
   <!---------------------------- starting date -------------------------------------- -->
-  <igx-date-picker [value]="date" name="startDate" (onSelection)="onDateSelection($event)" [(ngModel)]="form.dateStart">
+  <igx-date-picker name="startDate" (onSelection)="onDateSelection($event)" [(ngModel)]="form.dateStart">
     <ng-template igxDatePickerTemplate let-openDialog="openDialog" let-displayData="displayData">
       <igx-input-group type="box" (click)="openDialog()">
         <label igxLabel>Starting Date</label>
@@ -146,7 +146,7 @@
     </ng-template>
   </igx-date-picker>
 <!---------------------------- end date -------------------------------------- -->
-  <igx-date-picker [value]="date" name="endDate" (onSelection)="onDateSelection($event)" [(ngModel)]="form.dateEnd">
+  <igx-date-picker name="endDate" (onSelection)="onDateSelection($event)" [(ngModel)]="form.dateEnd">
     <ng-template igxDatePickerTemplate let-openDialog="openDialog" let-displayData="displayData">
       <igx-input-group type="box" (click)="openDialog()">
         <label igxLabel>End Date</label>
@@ -172,35 +172,35 @@
   </igx-time-picker> -->
   <!---------------------------- places of interests buttons ----------------------------------->
   <section class="chips-places">
-    <igx-card class="chips" [ngClass]="{'category': categoryColor}" (click)="chooseCategory()">
+    <igx-card class="chips" [ngClass]="{'category': category.amusement}" (click)="chooseCategory('amusement')">
       <i class="fas fa-grin fa-3x"></i>
       <span>Amusement Park</span>
     </igx-card>
-    <igx-card class="chips" (click)="chooseCategory()">
+    <igx-card class="chips" [ngClass]="{'category': category.campground}" (click)="chooseCategory('campground')">
       <i class="fas fa-campground fa-3x"></i>
       <span>Campground</span>
     </igx-card>
-    <igx-card class="chips" (click)="chooseCategory()">
+    <igx-card class="chips" [ngClass]="{'category': category.lodging}" (click)="chooseCategory('lodging')">
       <i class="fas fa-bed fa-3x"></i>
       <span>Lodging</span>
     </igx-card>
-    <igx-card class="chips" (click)="chooseCategory()">
+    <igx-card class="chips" [ngClass]="{'category': category.museum}" (click)="chooseCategory('museum')">
       <i class="fas fa-palette fa-3x"></i>
       <span>Museum</span>
     </igx-card>
-    <igx-card class="chips" (click)="chooseCategory()">
+    <igx-card class="chips" [ngClass]="{'category': category.park}" (click)="chooseCategory('park')">
       <i class="fas fa-tree fa-3x"></i>
       <span>Park</span>
     </igx-card>
-    <igx-card class="chips" (click)="chooseCategory()">
+    <igx-card class="chips" [ngClass]="{'category': category.shopping}" (click)="chooseCategory('shopping')">
       <i class="fas fa-gifts fa-3x"></i>
       <span>Shopping Mall</span>
     </igx-card>
-    <igx-card class="chips" (click)="chooseCategory()">
+    <igx-card class="chips" [ngClass]="{'category': category.tourist}" (click)="chooseCategory('tourist')">
       <i class="fas fa-archway fa-3x"></i>
-      <span>Tourism</span>
+      <span>Tourist</span>
     </igx-card>
-    <igx-card class="chips" (click)="chooseCategory()">
+    <igx-card class="chips" [ngClass]="{'category': category.zoo}" (click)="chooseCategory('zoo')">
       <i class="fas fa-paw fa-3x"></i>
       <span>Zoo</span>
     </igx-card>

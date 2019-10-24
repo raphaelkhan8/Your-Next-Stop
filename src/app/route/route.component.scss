@@ -1,3 +1,5 @@
+$razzle-dazzle-rose: #ff2ad2;
+
 .igx-input-group,
 .center-content,
 .select {
@@ -34,6 +36,10 @@
 
 .date-picker-wrapper {
   padding: 1rem;
+}
+
+.category {
+  color: $razzle-dazzle-rose;
 }
 
 igx-card {
