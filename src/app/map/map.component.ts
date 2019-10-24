@@ -17,6 +17,7 @@ import {
   take
 } from 'rxjs/operators';
 import { RouteService } from '../services/route.service.js';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -68,38 +69,8 @@ export class MapComponent implements OnInit, OnDestroy {
   ngOnInit() {
     //if explore view is active, populates currentposition and nearby locations
     if (this.snapshotUrl === '/explore') {
-      this.exploreSubscription = this.locationService
-        .getCurrentPosition()
-        .pipe(
-          switchMap(position => {
-            this.currentPosition = {
-              lat: 47.62005908114151,
-              lng: -122.32398084206318
-              // lat: position.coords.latitude,
-              // lng: position.coords.longitude
-            };
-            const p = {
-              coords: {
-                latitude: this.currentPosition.lat,
-                longitude: this.currentPosition.lng
-              }
-            };
-            return this.locationService.getNearbyPlaces(p, this.snapshotUrl);
-          })
-        )
-        .subscribe(places => {
-          this.nearbyPlaces = places;
-          this.placesLoaded.emit('places loaded');
-          this.nearbyPlaces.map((place, i) => {
-            const placeCoords = {
-              lat: place.lat,
-              lng: place.lng,
-              name: place.name
-            };
-            this.getPlacePhoto(placeCoords, i);
-            // this.getPlacePhoto(place.photos, i)
-          });
-        });
+      this.exploreSubscription = this.setPlaces();
+        
     }
     //subscribes to currentlocation only
     if (this.snapshotUrl === '/route') {
@@ -129,7 +100,6 @@ export class MapComponent implements OnInit, OnDestroy {
   }
   //gets top photo for each place
   getPlacePhoto(placeCoords, index) {
-    if (!this.images[index]) {
       this.imageSubscription = this.locationService
         .getPlacePhoto(placeCoords)
         .pipe(distinct())
@@ -137,12 +107,8 @@ export class MapComponent implements OnInit, OnDestroy {
           this.images[index] = photos || [
             'http://www.moxmultisport.com/wp-content/uploads/no-image.jpg'
           ];
-          if (this.images.length) {
-            //this number will need to be dynamic in the future (ncategories * nplaces)
             this.imagesLoaded.emit(index);
-          }
         });
-    }
   }
 
   markerClick(index, fromSlide) {
@@ -155,12 +121,50 @@ export class MapComponent implements OnInit, OnDestroy {
     }
   }
 
+  setPlaces(category?: string) {
+    if (this.exploreSubscription) this.exploreSubscription.unsubscribe();
+    return this.locationService
+        .getCurrentPosition()
+        .pipe(
+          switchMap(position => {
+            this.currentPosition = {
+              lat: 37.776429770772005,
+lng: -122.4111976915849
+              // lat: position.coords.latitude,
+              // lng: position.coords.longitude
+            };
+            const p = {
+              coords: {
+                latitude: this.currentPosition.lat,
+                longitude: this.currentPosition.lng
+              }
+            };
+            if (category) return this.locationService.getNearbyPlacesByCategory(p, category);
+            return this.locationService.getNearbyPlaces(p, this.snapshotUrl);
+          })
+        )
+        .subscribe(places => {
+          
+          this.nearbyPlaces = places;
+          this.placesLoaded.emit('places loaded');
+          this.nearbyPlaces.map((place, i) => {
+            const placeCoords = {
+              lat: place.lat,
+              lng: place.lng,
+              name: place.name
+            };
+            this.getPlacePhoto(placeCoords, i);
+            // this.getPlacePhoto(place.photos, i)
+          });
+       
+        });
+  }
+
   ngOnDestroy() {
     //subscription cleanup
     if (this.exploreSubscription) this.exploreSubscription.unsubscribe();
     if (this.routeSubscription) this.routeSubscription.unsubscribe();
-    if (this.currentLocationSubscription)
-      this.currentLocationSubscription.unsubscribe();
+    if (this.currentLocationSubscription) this.currentLocationSubscription.unsubscribe();
     if (this.imageSubscription) this.imageSubscription.unsubscribe();
   }
 }

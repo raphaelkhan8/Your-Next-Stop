@@ -25,9 +25,7 @@ export class PlacesComponent implements OnInit {
   }
 
   getUserPlaces() {
-    console.log(this.userId)
     this.location.getUserPlaces(this.userId).subscribe(userPlace => {
-      console.log(userPlace);
       this.userPlaces.push(userPlace);
     });
   }
