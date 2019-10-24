@@ -1,5 +1,5 @@
 import { DetailsComponent } from './../details/details.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TripsService } from '../services/trips.service';
 import { NavbarService } from '../services/navbar.service';
 @Component({
@@ -7,7 +7,7 @@ import { NavbarService } from '../services/navbar.service';
   templateUrl: './trips.component.html',
   styleUrls: ['./trips.component.scss']
 })
-export class TripsComponent implements OnInit {
+export class TripsComponent implements OnInit, OnDestroy {
   currentUser = localStorage.getItem('userId');
 
   details = {
@@ -20,7 +20,7 @@ export class TripsComponent implements OnInit {
     duration: ''
   };
 
-  eta;
+  etaSubscription;
 
   public upcoming = [];
   public current = [];
@@ -45,7 +45,7 @@ export class TripsComponent implements OnInit {
     this.trips.getETA(origin, destination).subscribe((response: any): void => {
       this.details.distance = response.distance;
       this.details.duration = response.duration;
-      })
+    });
   }
 
   tripDetails(trip) {
@@ -57,7 +57,7 @@ export class TripsComponent implements OnInit {
     this.details.start = new Date(trip.dateStart.split('T')[0]).toDateString();
     this.details.end = new Date(trip.dateEnd.split('T')[0]).toDateString();
     this.getEta(this.details.origin, this.details.destination);
-    console.log(this.details)
+    console.log(this.details);
   }
 
   getAllTrips() {
@@ -76,5 +76,11 @@ export class TripsComponent implements OnInit {
           }
         });
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.etaSubscription) {
+      this.etaSubscription.unsubscribe();
+    }
   }
 }
