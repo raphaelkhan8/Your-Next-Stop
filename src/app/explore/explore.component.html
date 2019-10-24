@@ -4,53 +4,54 @@
 </div>
 
 <section class="chips-container">
-  <igx-card class="chips" [ngClass]="{'category': category.bakery}" (click)="chooseCategory('bakery')">
+  <igx-card class="chips" [ngClass]="{'category': category === 'bakery'}" (click)="chooseCategory('bakery')">
     <i class="fas fa-cookie-bite fa-3x"></i>
     <span>Bakery</span>
   </igx-card>
-  <igx-card class="chips" [ngClass]="{'category': category.bar}" (click)="chooseCategory('bar')">
+  <igx-card class="chips" [ngClass]="{'category': category === 'bar'}" (click)="chooseCategory('bar')">
     <i class="fas fa-glass-cheers fa-3x"></i>
     <span>Bar</span>
   </igx-card>
-  <igx-card class="chips" [ngClass]="{'category': category.cafe}" (click)="chooseCategory('cafe')">
+  <igx-card class="chips" [ngClass]="{'category': category === 'cafe'}" (click)="chooseCategory('cafe')">
     <i class="fas fa-coffee fa-3x"></i>
     <span>Cafe</span>
   </igx-card>
-  <igx-card class="chips" [ngClass]="{'category': category.museum}" (click)="chooseCategory('museum')">
+  <igx-card class="chips" [ngClass]="{'category': category === 'museum'}" (click)="chooseCategory('museum')">
     <i class="fas fa-palette fa-3x"></i>
     <span>Museum</span>
   </igx-card>
-  <igx-card class="chips" [ngClass]="{'category': category.park}" (click)="chooseCategory('park')">
+  <igx-card class="chips" [ngClass]="{'category': category === 'park'}" (click)="chooseCategory('park')">
     <i class="fas fa-tree fa-3x"></i>
     <span>Park</span>
   </igx-card>
-  <igx-card class="chips" [ngClass]="{'category': category.restaurant}" (click)="chooseCategory('restaurant')">
+  <igx-card class="chips" [ngClass]="{'category': category === 'restaurant'}" (click)="chooseCategory('restaurant')">
     <i class="fas fa-utensils fa-3x"></i>
     <span>Retaurant</span>
   </igx-card>
-  <igx-card class="chips" [ngClass]="{'category': category.shopping}" (click)="chooseCategory('shopping')">
+  <igx-card class="chips" [ngClass]="{'category': category === 'shopping'}" (click)="chooseCategory('shopping')">
     <i class="fas fa-gifts fa-3x"></i>
     <span>Shopping</span>
   </igx-card>
-  <igx-card class="chips" [ngClass]="{'category': category.tourist}" (click)="chooseCategory('tourist')">
+  <igx-card class="chips" [ngClass]="{'category': category === 'tourist'}" (click)="chooseCategory('tourist')">
     <i class="fas fa-archway fa-3x"></i>
     <span>Tourism</span>
   </igx-card>
 </section>
 
+
 <igx-carousel #ic [pause]="true" [loop]="true" (onSlideChanged)="onSlideChanged($event.slide.index)">
   <ng-container *ngFor="let place of places; let i = index;">
     <igx-slide>
       <div class="card-column">
-        <igx-card>
+        <igx-card *ngIf="images[i]">
           <igx-card-header>
             <h3 igxCardHeaderTitle>{{place.name}}</h3>
           </igx-card-header>
-          <igx-card-media (click)="navigateWithState(place.placeId)" height="300px">
-            <ng-container *ngIf="images.length">
+          <ng-container *ngIf="images.length">
+            <igx-card-media (click)="navigateWithState(place.placeId)" height="300px">
               <img [src]="images[i]">
-            </ng-container>
-          </igx-card-media>
+            </igx-card-media>
+          </ng-container>
         </igx-card>
       </div>
     </igx-slide>

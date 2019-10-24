@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../map/map.component';
 import { LocationService } from '../services/location.service';
-import { from } from 'rxjs';
+import { from, Observable, Subscription } from 'rxjs';
 import { IgxCarouselComponent, Direction } from 'igniteui-angular';
 import { AgmInfoWindow } from '@agm/core';
 import { NavbarService } from '../services/navbar.service';
@@ -13,28 +13,22 @@ import { NavbarService } from '../services/navbar.service';
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.scss']
 })
-export class ExploreComponent implements OnInit {
+export class ExploreComponent implements OnInit, OnChanges {
   @ViewChild(MapComponent, { static: false }) private map: MapComponent;
   @ViewChild(IgxCarouselComponent, { static: false })
-  private carousel: IgxCarouselComponent;
   @ViewChild(AgmInfoWindow, { static: false })
+  
+  public shouldLoad;
+  private carousel: IgxCarouselComponent;
   private infoWindow: AgmInfoWindow;
-  public places = [];
-  public images = [];
+  public places: Array<any> = [];
+  public images: Array<string> = [];
   public title = 'Your Personalized Stops';
-  placesSubscription;
-  imagesSubscription;
-  currentUser = localStorage.getItem('userId');
-  category = {
-    bakery: false,
-    bar: false,
-    cafe: false,
-    museum: false,
-    park: false,
-    restaurant: false,
-    shopping: false,
-    tourist: false,
-  };
+  private personalizedPlacesSubscription: Subscription;
+  private selectedCategoryPlacesSubscription: Subscription;
+  private imagesSubscription: Subscription;
+  private currentUser = localStorage.getItem('userId');
+  private category: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,8 +37,12 @@ export class ExploreComponent implements OnInit {
     private navBar: NavbarService
   ) {}
 
+  ngOnChanges(changes) {
+    // if (!changes.shouldLoad) { this.shouldLoad = true; }
+  }
+
   ngOnInit() {
-    // this.updateNavbar();
+    // this.shouldLoad = true;
     const userId = this.route.snapshot.queryParams.id;
     const savedUserId = localStorage.getItem('userId');
     if (userId && !savedUserId) {
@@ -55,17 +53,17 @@ export class ExploreComponent implements OnInit {
   }
 
   loadPlaces() {
-    if (!this.placesSubscription) {
-      // console.log('Map Nearby Places', this.map.nearbyPlaces);
-      this.placesSubscription = from(this.map.nearbyPlaces).subscribe(place => {
-        // console.log('PLACE', place);
+    if (this.personalizedPlacesSubscription) this.personalizedPlacesSubscription.unsubscribe();
+      this.places = [];
+      this.personalizedPlacesSubscription = from(this.map.nearbyPlaces).subscribe(place => {
         this.places.push(place);
       });
-    }
+   
   }
 
   loadImages(index) {
-    // console.log('IMAGES LOADED', this.map.images);
+    console.log(this.images)
+    
     this.images[index] = this.map.images[index].photos[0];
   }
 
@@ -82,36 +80,11 @@ export class ExploreComponent implements OnInit {
     this.router.navigateByUrl('/details', { state: { id } });
   }
 
-  chooseCategory(select) {
-    const filteredPlaces = this.map.nearbyPlaces.filter(
-      place => place.interest === select
-    );
-    this.places = filteredPlaces;
-    this.category[select] = !this.category[select];
-    return this.map.nearbyPlaces.filter((place, index) => {
-      if (place.interest === select) {
-        console.log('Image Index', index);
-        console.log(
-          'Filtered Places:',
-          this.places,
-          'Filtered Images:',
-          this.images
-        );
-        this.loadImages(index);
-      }
-    });
+  chooseCategory(selected) {
+    this.map.setPlaces(selected);
+    this.category = selected;
   }
-  // const filteredImages = this.map.nearbyPlaces.filter((place, index) => {
-  //   if (place.interest === category) {
-  //     console.log('Image Index', index);
-  //     return this.loadImages(index);
-  //   }
-  // });
-  // const filteredPlaces = this.map.nearbyPlaces.filter(place => place.interest === category);
-  // this.places = filteredPlaces;
-  // this.images = filteredImages;
-  // console.log('Filtered Places:', this.places, 'Filtered Images:', this.images);
-  // }
+ 
 
   updateNavbar() {
     this.navBar.updateTitle(this.title);

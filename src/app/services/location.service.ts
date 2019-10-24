@@ -9,6 +9,7 @@ import { HttpParams } from '@angular/common/http';
 })
 export class LocationService {
   private getNearbyPlacesEndpoint = `${environment.BASE_API_URL}/nearbyPlaces`;
+  private getNearbyPlacesByCategoryEndpoint = `${environment.BASE_API_URL}/nearbyPlacesByCategory`;
   private voteInterestEndpoint = `${environment.BASE_API_URL}/likedInterest`;
   private getPlaceInfoEndpoint = `${environment.BASE_API_URL}/getPlaceInfo`;
   private getUserPlacesEndpoint = `${environment.BASE_API_URL}/getLikedAndSavedForLater`;
@@ -57,6 +58,19 @@ export class LocationService {
         .set('location', currentPositionString)
         .set('id', id)
         .set('snapshotUrl', snapshotUrl)
+      })
+  
+  }
+
+  public getNearbyPlacesByCategory(location, category) {
+    
+    const currentPositionString = `${location.coords.latitude},${location.coords.longitude}`;
+
+      return this.http.get(this.getNearbyPlacesByCategoryEndpoint, {
+        params: new HttpParams()
+        .set('location', currentPositionString)
+        .set('category', category)
+        
       })
   
   }
