@@ -7,13 +7,15 @@
           <p class="empty"> Route one now!</p>
         </ng-template>
             <igx-list-item *ngFor="let current of current" (click)="dialog.open()">
-              <p igxListLineTitle (click)="currentTrip(current[0])">Route: {{current[0].route}}</p>
+              <p igxListLineTitle (click)="tripDetails(current[0])">Route: {{current[0].route}}</p>
           <igx-dialog #dialog title="Trip Details" leftButtonLabel="Close" (onLeftButtonSelect)="dialog.close()"
             rightButtonLabel="Edit" (onRightButtonSelect)="editTrip($event, current)">
-            <p>Origin: {{currentDetails.origin}}</p>
-            <p>Destination: {{currentDetails.destination}}</p>
-            <p>Start Date: {{currentDetails.start}}</p>
-            <p>End Date: {{currentDetails.end}}</p>
+            <p>Origin: {{details.origin}}</p>
+            <p>Destination: {{details.destination}}</p>
+            <p>Start Date: {{details.start}}</p>
+            <p>End Date: {{details.end}}</p>
+            <p>Distance: {{details.distance}}</p>
+            <p>Duration: {{details.duration}}</p>
           </igx-dialog>
             </igx-list-item>
       </igx-list>
@@ -25,13 +27,15 @@
           <p class="empty"> Route one now!</p>
         </ng-template>
         <igx-list-item *ngFor="let upcoming of upcoming" (click)="dialog.open()">
-          <p igxListLineTitle (click)="upcomingTrip(upcoming[0])">Route: {{upcoming[0].route}}</p>
+          <p igxListLineTitle (click)="tripDetails(upcoming[0])">Route: {{upcoming[0].route}}</p>
           <igx-dialog #dialog title="Trip Details" leftButtonLabel="Close" (onLeftButtonSelect)="dialog.close()"
             rightButtonLabel="Edit" (onRightButtonSelect)="editTrip($event, upcoming)">
-            <p>Origin: {{upcomingDetails.origin}}</p>
-            <p>Destination: {{upcomingDetails.destination}}</p>
-            <p>Start Date: {{upcomingDetails.start}}</p>
-            <p>End Date: {{upcomingDetails.end}}</p>
+            <p>Origin: {{details.origin}}</p>
+            <p>Destination: {{details.destination}}</p>
+            <p>Start Date: {{details.start}}</p>
+            <p>End Date: {{details.end}}</p>
+            <p>Distance: {{details.distance}}</p>
+            <p>Duration: {{details.duration}}</p>
           </igx-dialog>
         </igx-list-item>
       </igx-list>
@@ -43,13 +47,15 @@
           <p class="empty"> Route one now!</p>
         </ng-template>
         <igx-list-item *ngFor="let previous of previous" (click)="dialog.open()">
-          <p igxListLineTitle (click)="previousTrip(previous[0])">Route: {{previous[0].route}}</p>
+          <p igxListLineTitle (click)="tripDetails(previous[0])">Route: {{previous[0].route}}</p>
           <igx-dialog #dialog title="Trip Details"
             rightButtonLabel="Close" (onRightButtonSelect)="dialog.close()">
-            <p>Origin: {{previousDetails.origin}}</p>
-            <p>Destination: {{previousDetails.destination}}</p>
-            <p>Start Date: {{previousDetails.start}}</p>
-            <p>End Date: {{previousDetails.end}}</p>
+            <p>Origin: {{details.origin}}</p>
+            <p>Destination: {{details.destination}}</p>
+            <p>Start Date: {{details.start}}</p>
+            <p>End Date: {{details.end}}</p>
+            <p>Distance: {{details.distance}}</p>
+            <p>Duration: {{details.duration}}</p>
           </igx-dialog>
         </igx-list-item>
       </igx-list>
