@@ -22,10 +22,13 @@
           <p class="empty"> Route one now!</p>
         </ng-template>
         <igx-list-item *ngFor="let upcoming of upcoming" (click)="dialog.open()">
-          <p igxListLineTitle>Route: {{upcoming[0].route}}</p>
+          <p igxListLineTitle (click)="interpolate(upcoming[0])">Route: {{upcoming[0].route}}</p>
           <igx-dialog #dialog title="Trip Details" leftButtonLabel="Close" (onLeftButtonSelect)="dialog.close()"
-            rightButtonLabel="Edit" (onRightButtonSelect)="editTrip($event, upcoming)"
-            [message]="interpolate(upcoming[0])">
+            rightButtonLabel="Edit" (onRightButtonSelect)="editTrip($event, upcoming)">
+            <p>Origin: {{upcomingDetails.origin}}</p>
+            <p>Destination: {{upcomingDetails.destination}}</p>
+            <p>Start Date: {{upcomingDetails.start}}</p>
+            <p>End Date: {{upcomingDetails.end}}</p>
           </igx-dialog>
         </igx-list-item>
       </igx-list>
