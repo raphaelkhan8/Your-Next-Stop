@@ -11,6 +11,9 @@
           <igx-dialog #dialog title="Trip Details" leftButtonLabel="Close" (onLeftButtonSelect)="dialog.close()"
             rightButtonLabel="Edit" (onRightButtonSelect)="editTrip($event, current)">
             <p>Origin: {{currentDetails.origin}}</p>
+            <p *ngFor="let waypoint of currentDetails.wayPoints">
+              Waypoint 1: {{waypoint}}
+            </p>
             <p>Destination: {{currentDetails.destination}}</p>
             <p>Start Date: {{currentDetails.start}}</p>
             <p>End Date: {{currentDetails.end}}</p>
@@ -29,6 +32,9 @@
           <igx-dialog #dialog title="Trip Details" leftButtonLabel="Close" (onLeftButtonSelect)="dialog.close()"
             rightButtonLabel="Edit" (onRightButtonSelect)="editTrip($event, upcoming)">
             <p>Origin: {{upcomingDetails.origin}}</p>
+            <p *ngFor="let waypoint of upcomingDetails.wayPoints">
+              Waypoint 1: {{waypoint}}
+            </p>
             <p>Destination: {{upcomingDetails.destination}}</p>
             <p>Start Date: {{upcomingDetails.start}}</p>
             <p>End Date: {{upcomingDetails.end}}</p>
@@ -47,6 +53,9 @@
           <igx-dialog #dialog title="Trip Details"
             rightButtonLabel="Close" (onRightButtonSelect)="dialog.close()">
             <p>Origin: {{previousDetails.origin}}</p>
+            <p *ngFor="let waypoint of previousDetails.wayPoints">
+              Waypoint 1: {{waypoint}}
+            </p>
             <p>Destination: {{previousDetails.destination}}</p>
             <p>Start Date: {{previousDetails.start}}</p>
             <p>End Date: {{previousDetails.end}}</p>

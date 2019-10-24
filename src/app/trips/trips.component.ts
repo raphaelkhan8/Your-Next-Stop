@@ -52,12 +52,11 @@ export class TripsComponent implements OnInit {
     this.getAllTrips();
   }
 
+
   currentTrip(trip) {
     this.currentDetails.origin = trip.route.split('->')[0];
     this.currentDetails.destination = trip.route.split('->')[1];
-    // ${trip.wayPoints.filter(waypoint => waypoint.length)
-    //   .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
-    // this.upcomingDetails.wayPoints;
+    this.currentDetails.wayPoints = trip.wayPoints.filter(waypoint => waypoint.length);
     this.currentDetails.start = new Date(
       trip.dateStart.split('T')[0]
     ).toDateString();
@@ -69,9 +68,7 @@ export class TripsComponent implements OnInit {
   upcomingTrip(trip) {
     this.upcomingDetails.origin = trip.route.split('->')[0];
     this.upcomingDetails.destination = trip.route.split('->')[1];
-    // ${trip.wayPoints.filter(waypoint => waypoint.length)
-    //   .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
-    // this.upcomingDetails.wayPoints;
+    this.upcomingDetails.wayPoints = trip.wayPoints.filter(waypoint => waypoint.length);
     this.upcomingDetails.start = new Date(
       trip.dateStart.split('T')[0]
     ).toDateString();
@@ -83,9 +80,7 @@ export class TripsComponent implements OnInit {
   previousTrip(trip) {
     this.previousDetails.origin = trip.route.split('->')[0];
     this.previousDetails.destination = trip.route.split('->')[1];
-    // ${trip.wayPoints.filter(waypoint => waypoint.length)
-    //   .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
-    // this.upcomingDetails.wayPoints;
+    this.previousDetails.wayPoints = trip.wayPoints.filter(waypoint => waypoint.length);
     this.previousDetails.start = new Date(
       trip.dateStart.split('T')[0]
     ).toDateString();
