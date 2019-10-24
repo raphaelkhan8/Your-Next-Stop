@@ -38,8 +38,7 @@
   </igx-card>
 </section>
 
-
-<igx-carousel #ic [pause]="true" [loop]="true" (onSlideChanged)="onSlideChanged($event.slide.index)">
+<igx-carousel #ic [pause]="true" [loop]="true" (onSlideChanged)="onSlideChanged($event.slide.index, null)">
   <ng-container *ngFor="let place of places; let i = index;">
     <igx-slide>
       <div class="card-column">

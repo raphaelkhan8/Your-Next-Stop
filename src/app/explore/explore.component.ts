@@ -62,9 +62,8 @@ export class ExploreComponent implements OnInit, OnChanges {
   }
 
   loadImages(index) {
-    console.log(this.images)
-    
     this.images[index] = this.map.images[index].photos[0];
+    // console.log('IMAGES LOADED', this.map.images);
   }
 
   mapMarkerClicked(i) {
