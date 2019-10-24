@@ -23,6 +23,10 @@ export class StatsComponent implements OnInit {
     .subscribe(stats => {
       console.log('STATS', stats);
       this.stats = stats;
+      if (this.stats.milesTraveled > 999) {
+        this.stats.milesTraveled = this.stats.milesTraveled.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return this.stats;
+      }
     });
   }
 
