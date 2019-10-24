@@ -53,6 +53,7 @@ export class DetailsComponent implements OnInit {
         )
     this.state$.subscribe(state => 
       this.getPlaceInfo(state));
+      
 }
 
   getPlaceInfo(place) {
@@ -69,7 +70,7 @@ export class DetailsComponent implements OnInit {
         this.selectedPlaceInfo.status = 'saved';
         this.saveColor = true;
       } 
-      
+      console.log(this.selectedPlaceInfo)
     })
   }
 
