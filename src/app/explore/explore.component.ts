@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../map/map.component';
-import { LocationService } from '../services/location.service';
-import { from, Observable, Subscription } from 'rxjs';
+import { from, Subscription } from 'rxjs';
 import { IgxCarouselComponent, Direction } from 'igniteui-angular';
-import { AgmInfoWindow } from '@agm/core';
 import { NavbarService } from '../services/navbar.service';
 
 
@@ -13,32 +11,22 @@ import { NavbarService } from '../services/navbar.service';
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.scss']
 })
-export class ExploreComponent implements OnInit, OnChanges {
+export class ExploreComponent implements OnInit {
   @ViewChild(MapComponent, { static: false }) private map: MapComponent;
   @ViewChild(IgxCarouselComponent, { static: false }) private carousel: IgxCarouselComponent;
-  @ViewChild(AgmInfoWindow, { static: false })
   
-  public shouldLoad;
-  private infoWindow: AgmInfoWindow;
   public places: Array<any> = [];
   public images: Array<string> = [];
   public title = 'Your Personalized Stops';
   private personalizedPlacesSubscription: Subscription;
-  private selectedCategoryPlacesSubscription: Subscription;
-  private imagesSubscription: Subscription;
   private currentUser = localStorage.getItem('userId');
   private category: string;
 
   constructor(
     private route: ActivatedRoute,
     public router: Router,
-    private location: LocationService,
     private navBar: NavbarService
   ) {}
-
-  ngOnChanges(changes) {
-    // if (!changes.shouldLoad) { this.shouldLoad = true; }
-  }
 
   ngOnInit() {
     // this.shouldLoad = true;
@@ -61,7 +49,6 @@ export class ExploreComponent implements OnInit, OnChanges {
 
   loadImages(index) {
     this.images[index] = this.map.images[index].photos[0];
-    // console.log('IMAGES LOADED', this.map.images);
   }
 
   mapMarkerClicked(i) {
