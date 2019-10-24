@@ -23,6 +23,7 @@ export class RouteComponent implements OnInit, OnDestroy {
 
   currentUser = localStorage.getItem('userId');
   parsedTrip = JSON.parse(localStorage.getItem('trip'));
+  milesTraveled = '';
   tripId = Number;
 
   form = {
@@ -75,6 +76,10 @@ export class RouteComponent implements OnInit, OnDestroy {
   public onSubmit() {
     this.map.setRoute(this.form);
     // this.submitTrip(this.form);
+    this.trips.getETA(this.form.origin, this.form.destination).subscribe((response: any): void => {
+      this.milesTraveled = response.distance;
+      console.log(this.milesTraveled);
+    })
     let formStorage = JSON.stringify(this.form);
     localStorage.setItem('form', formStorage);
     // console.log('@@form@@', localStorage.form)
@@ -85,7 +90,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     form.waypoints = this.form.waypoints;
     // console.log('TRIP ID', this.tripId);
     // console.log('trip form being sent to ROUTE SERVICE', form);
-    return this.route.saveTrips(form, this.tripId).subscribe(userTrip => {
+    return this.route.saveTrips(form, this.tripId, this.milesTraveled).subscribe(userTrip => {
       // console.log('Return from submitTrip function', userTrip);
     });
   }
@@ -142,6 +147,10 @@ export class RouteComponent implements OnInit, OnDestroy {
     this.form.route = this.parsedTrip[0].route;
     this.form.waypoints = this.parsedTrip[0].wayPoints || [''];
     this.tripId = this.parsedTrip[0].id;
+    this.trips.getETA(this.form.origin, this.form.destination).subscribe((response: any): void => {
+      this.milesTraveled = response.distance;
+      console.log(this.milesTraveled);
+    })
     // console.log(
     //   'Selected trip info from trip page that will populate this form',
     //   this.form

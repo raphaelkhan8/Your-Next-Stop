@@ -51,6 +51,7 @@ export class TripsComponent implements OnInit, OnDestroy {
   tripDetails(trip) {
     this.details.origin = trip.route.split('->')[0];
     this.details.destination = trip.route.split('->')[1];
+    this.details.wayPoints = trip.wayPoints.filter(waypoint => waypoint.length);
     // ${trip.wayPoints.filter(waypoint => waypoint.length)
     //   .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
     // this.details.wayPoints;
