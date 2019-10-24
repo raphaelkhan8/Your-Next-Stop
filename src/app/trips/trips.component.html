@@ -7,10 +7,13 @@
           <p class="empty"> Route one now!</p>
         </ng-template>
             <igx-list-item *ngFor="let current of current" (click)="dialog.open()">
-              <p igxListLineTitle>Route: {{current[0].route}}</p>
+              <p igxListLineTitle (click)="currentTrip(current[0])">Route: {{current[0].route}}</p>
           <igx-dialog #dialog title="Trip Details" leftButtonLabel="Close" (onLeftButtonSelect)="dialog.close()"
-            rightButtonLabel="Edit" (onRightButtonSelect)="editTrip($event, current)"
-            [message]="interpolate(current[0])">
+            rightButtonLabel="Edit" (onRightButtonSelect)="editTrip($event, current)">
+            <p>Origin: {{currentDetails.origin}}</p>
+            <p>Destination: {{currentDetails.destination}}</p>
+            <p>Start Date: {{currentDetails.start}}</p>
+            <p>End Date: {{currentDetails.end}}</p>
           </igx-dialog>
             </igx-list-item>
       </igx-list>
@@ -22,7 +25,7 @@
           <p class="empty"> Route one now!</p>
         </ng-template>
         <igx-list-item *ngFor="let upcoming of upcoming" (click)="dialog.open()">
-          <p igxListLineTitle (click)="interpolate(upcoming[0])">Route: {{upcoming[0].route}}</p>
+          <p igxListLineTitle (click)="upcomingTrip(upcoming[0])">Route: {{upcoming[0].route}}</p>
           <igx-dialog #dialog title="Trip Details" leftButtonLabel="Close" (onLeftButtonSelect)="dialog.close()"
             rightButtonLabel="Edit" (onRightButtonSelect)="editTrip($event, upcoming)">
             <p>Origin: {{upcomingDetails.origin}}</p>
@@ -40,10 +43,13 @@
           <p class="empty"> Route one now!</p>
         </ng-template>
         <igx-list-item *ngFor="let previous of previous" (click)="dialog.open()">
-          <p igxListLineTitle>Route: {{previous[0].route}}</p>
+          <p igxListLineTitle (click)="previousTrip(previous[0])">Route: {{previous[0].route}}</p>
           <igx-dialog #dialog title="Trip Details"
-            rightButtonLabel="Close" (onRightButtonSelect)="dialog.close()"
-            [message]="interpolate(previous[0])">
+            rightButtonLabel="Close" (onRightButtonSelect)="dialog.close()">
+            <p>Origin: {{previousDetails.origin}}</p>
+            <p>Destination: {{previousDetails.destination}}</p>
+            <p>Start Date: {{previousDetails.start}}</p>
+            <p>End Date: {{previousDetails.end}}</p>
           </igx-dialog>
         </igx-list-item>
       </igx-list>
