@@ -65,8 +65,8 @@ export class ExploreComponent implements OnInit {
   }
 
   loadImages(index) {
-    // console.log('IMAGES LOADED', this.map.images);
     this.images[index] = this.map.images[index].photos[0];
+    // console.log('IMAGES LOADED', this.map.images);
   }
 
   mapMarkerClicked(i) {
