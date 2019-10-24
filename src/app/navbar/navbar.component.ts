@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
     this.currentView = this.navbar.title;
   }
 
-  public items: Array<{ text: string }> = [{ text: 'Logout' }];
+  public items: Array<{ text: string }> = [{ text: 'Stats' }, { text: 'Logout' }];
   public text: string;
   public overlaySettings = {
     positionStrategy: new ConnectedPositioningStrategy({
