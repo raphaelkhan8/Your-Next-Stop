@@ -1,36 +1,102 @@
 <!-- '/route' map -->
-<agm-map *ngIf="snapshotUrl === '/route' && currentPosition" [latitude]="currentPosition.lat"
-  [longitude]="currentPosition.lng" [zoom]="12" [styles]="styles" [disableDefaultUI]="true"
-  (mapClick)="showClickedPosition($event)">
+<agm-map 
+*ngIf="snapshotUrl === '/route' && currentPosition" 
+[latitude]="currentPosition.lat"
+[longitude]="currentPosition.lng" 
+[zoom]="12" 
+[styles]="styles" 
+[disableDefaultUI]="true"
+(mapClick)="showClickedPosition($event)"
+>
 
-  <agm-direction *ngIf="origin && destination" [origin]="origin" [destination]="destination" [waypoints]="waypoints"
-    [renderOptions]="renderOptions">
+  <agm-direction 
+  *ngIf="origin && destination" 
+  [origin]="origin" 
+  [destination]="destination" 
+  [waypoints]="waypoints"
+  [renderOptions]="renderOptions"
+  >
   </agm-direction>
-  <agm-marker [latitude]="currentPosition.lat" [longitude]="currentPosition.lng" [iconUrl]="{
+  <agm-marker 
+  [latitude]="currentPosition.lat" 
+  [longitude]="currentPosition.lng" 
+  [iconUrl]="{
         url: '../assets/icons/pink star maps marker.png',
         scaledSize: {
             width: 50,
             height: 50
-        }}">
-    <agm-info-window [maxWidth]=350 [disableAutoPan]="true" [isOpen]="true">
+        }}"
+        >
+    <agm-info-window 
+    [maxWidth]=350 
+    [disableAutoPan]="true" 
+    [isOpen]="true"
+    >
       You are here
     </agm-info-window>
   </agm-marker>
+  <ng-container *ngIf="routeSuggestions">
+    <agm-marker 
+    *ngFor="let suggestion of routeSuggestions | async; let i = index"
+    (markerClick)="routeMarkerClick(i)" 
+    [markerClickable]="true"
+    [latitude]="suggestion.lat" 
+    [longitude]="suggestion.lng" 
+    [iconUrl]="{
+      url: suggestion.clicked ? '../assets/icons/yellow maps marker.png' : '../assets/icons/red maps marker.png',
+      scaledSize: {
+          width: 30,
+          height: 48
+      }}"
+        >
+      <agm-info-window
+      *ngIf="suggestion.clicked"
+      [maxWidth]=350
+      [disableAutoPan]="true" 
+      [isOpen]="true"
+      >
+        <h5 style="color:black;">
+          {{suggestion.name}}
+        </h5>
+          {{suggestion.address}}<br>
+        <a style="font-size:0.9rem;" href="http://maps.google.com/?q={{suggestion.address + suggestion.name}}"
+          target="_blank">Open in Google Maps</a>
+      </agm-info-window>
+    </agm-marker>
+  </ng-container>
 </agm-map>
 
 <!-- '/explore' map -->
-<agm-map *ngIf="snapshotUrl === '/explore' && currentPosition" [latitude]="currentPosition.lat"
-  [longitude]="currentPosition.lng" [styles]="styles" [zoom]="14" [disableDefaultUI]="true"
-  (mapClick)="showClickedPosition($event)">
+<agm-map 
+*ngIf="snapshotUrl === '/explore' && currentPosition" 
+[latitude]="currentPosition.lat"
+[longitude]="currentPosition.lng" 
+[styles]="styles" 
+[zoom]="14" 
+[disableDefaultUI]="true"
+(mapClick)="showClickedPosition($event)">
   <div *ngIf="nearbyPlaces">
-    <agm-marker *ngFor="let place of nearbyPlaces; let i = index" [latitude]="place.lat" [longitude]="place.lng"
-      [openInfoWindow]="true" (markerClick)="markerClick(i)" [markerClickable]="true" [iconUrl]="{
+    <agm-marker 
+    *ngFor="let place of nearbyPlaces; let i = index" 
+    [latitude]="place.lat" 
+    [longitude]="place.lng"
+    [openInfoWindow]="true" 
+    (markerClick)="markerClick(i)" 
+    [markerClickable]="true" 
+    [iconUrl]="{
         url: place.clicked ? '../assets/icons/yellow maps marker.png' : '../assets/icons/red maps marker.png',
         scaledSize: {
             width: 30,
             height: 48
-        }}">
-      <agm-info-window [isOpen]="true" *ngIf="place.clicked" [disableAutoPan]="false" [isOpen]="false" [maxWidth]=500>
+        }}"
+        >
+      <agm-info-window 
+      [isOpen]="true" 
+      *ngIf="place.clicked" 
+      [disableAutoPan]="false" 
+      [isOpen]="false" 
+      [maxWidth]=500
+      >
         <h5 style="color:black;">
           {{place.name}}
         </h5>
@@ -40,12 +106,16 @@
       </agm-info-window>
     </agm-marker>
   </div>
-  <agm-marker [latitude]="currentPosition.lat" [longitude]="currentPosition.lng" [iconUrl]="{
+  <agm-marker 
+  [latitude]="currentPosition.lat" 
+  [longitude]="currentPosition.lng" 
+  [iconUrl]="{
         url: '../assets/icons/pink star maps marker.png',
         scaledSize: {
             width: 50,
             height: 50
-        }}">
+        }}"
+        >
     <agm-info-window [isOpen]="false" [disableAutoPan]="true">
       <h5 style="color:black;">
         You are here

@@ -20,6 +20,7 @@ import { NavbarService } from '../services/navbar.service';
 })
 export class RouteComponent implements OnInit, OnDestroy {
   @Output() public onClosing = new EventEmitter<string>();
+  @ViewChild(MapComponent, { static: false }) public map: MapComponent;
 
   currentUser = localStorage.getItem('userId');
   parsedTrip = JSON.parse(localStorage.getItem('trip'));
@@ -55,6 +56,7 @@ export class RouteComponent implements OnInit, OnDestroy {
   };
 
   inputSubscription;
+  routeSuggestionsSubscription;
 
   constructor(
     private trips: TripsService,
@@ -62,7 +64,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     private router: PreviousRouteService,
     private navBar: NavbarService
   ) {}
-  @ViewChild(MapComponent, { static: false }) public map: MapComponent;
+  
 
   ngOnInit() {
     this.navBar.updateTitle('Route');
@@ -75,23 +77,13 @@ export class RouteComponent implements OnInit, OnDestroy {
 
   public onSubmit() {
     this.map.setRoute(this.form);
-    // this.submitTrip(this.form);
-    this.trips.getETA(this.form.origin, this.form.destination).subscribe((response: any): void => {
-      this.milesTraveled = response.distance;
-      console.log(this.milesTraveled);
-    })
-    let formStorage = JSON.stringify(this.form);
-    localStorage.setItem('form', formStorage);
-    // console.log('@@form@@', localStorage.form)
   }
 
   public submitTrip(form) {
     form.route = this.form.origin + ' -> ' + this.form.destination;
     form.waypoints = this.form.waypoints;
-    // console.log('TRIP ID', this.tripId);
-    // console.log('trip form being sent to ROUTE SERVICE', form);
-    return this.route.saveTrips(form, this.tripId, this.milesTraveled).subscribe(userTrip => {
-      // console.log('Return from submitTrip function', userTrip);
+    
+    return this.route.saveTrips(form, this.tripId, this.milesTraveled).subscribe(userTrip => {  
     });
   }
 
@@ -120,7 +112,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onClick() {
+  public onInputClick() {
     this.suggestions = [];
     if (this.inputSubscription) {
       this.inputSubscription.unsubscribe();
@@ -181,6 +173,11 @@ export class RouteComponent implements OnInit, OnDestroy {
 
   chooseCategory(selected) {
     this.category = selected;
+    this.map.routeSuggestions = this.route.getRouteSuggestions(this.map.origin, this.map.destination, selected)
+      // .subscribe((routeSuggestions: Array<any>): void => {
+      //   console.log(routeSuggestions)
+      //   this.map.routeSuggestions = routeSuggestions;
+      // })
   }
 
   ngOnDestroy() {

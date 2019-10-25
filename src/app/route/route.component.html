@@ -12,7 +12,7 @@
   <igx-input-group type="border">
     <input igxInput name="origin" type="text" [(ngModel)]="form.origin" required="required"
       (ngModelChange)="onKey('origin', null)" [igxAutocomplete]="originSuggestions" [igxAutocompleteSettings]='settings'
-      (click)="onClick()" />
+      (click)="onInputClick()" />
     <label igxLabel for="origin">Origin</label>
     <igx-suffix>
       <igx-icon>place</igx-icon>
@@ -121,7 +121,7 @@
   <igx-input-group type="border">
     <input igxInput name="destination" type="text" [(ngModel)]="form.destination"
       (ngModelChange)="onKey('destination', null)" [igxAutocomplete]="destinationSuggestions"
-      [igxAutocompleteSettings]='settings' (click)="onClick()" required="required" />
+      [igxAutocompleteSettings]='settings' (click)="onInputClick()" required="required" />
     <label igxLabel for="destination">Destination</label>
     <igx-suffix>
       <igx-icon>place</igx-icon>

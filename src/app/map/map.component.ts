@@ -54,6 +54,7 @@ export class MapComponent implements OnInit, OnDestroy {
   waypoints;
   //places near current position
   nearbyPlaces;
+  public routeSuggestions: Observable<any>;
   //endpoint of current view based on Router
   snapshotUrl: string;
   images = [];
@@ -119,6 +120,13 @@ export class MapComponent implements OnInit, OnDestroy {
       });
       if (!fromSlide) this.markerClicked.emit(index);
     }
+  }
+
+  routeMarkerClick(index) {
+    // this.routeSuggestions.forEach((suggestion, i) => {
+    //   if (i === index) suggestion.clicked = true;
+    //   else suggestion.clicked = false;
+    // })
   }
 
   setPlaces(category?: string) {
