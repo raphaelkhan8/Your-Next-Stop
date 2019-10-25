@@ -1,41 +1,35 @@
-<div class="items-wrapper__item items-wrapper__item-small items-wrapper__item--blue">
+<div *ngIf="userPlaces" class="items-wrapper__item items-wrapper__item-small items-wrapper__item--blue">
 
   <igx-tabs tabsType="fixed">
-
     <igx-tabs-group label="Likes">
-      <igx-carousel
-      *ngIf="userPlaces.length"
-      [pause]="true"
-      [loop]="true"
-      [navigation]="true"
-      >
-        <ng-container *ngFor="let likedPlace of userPlaces[0].likedPlaces">
-          <igx-slide>
-            <div class="card-column">
-              <igx-card>
-                <igx-card-header>
-                  <h3 igxCardHeaderTitle>{{likedPlace.name}}</h3>
-                </igx-card-header>
-                <igx-card-media (click)="navigateWithState(likedPlace.placeId)" height="300px">
-                  <ng-container>
-                    <img [src]="likedPlace.photo">
-                  </ng-container>
-                </igx-card-media>
-              </igx-card>
-            </div>
-          </igx-slide>
-        </ng-container>
-      </igx-carousel>
+      <ng-container *ngFor="let city of objectKeys(userPlaces.likedPlaces)">
+        <h5>{{city}}</h5>
+        <igx-carousel [pause]="true" [loop]="true" [navigation]="true">
+          <ng-container *ngFor="let likedPlace of userPlaces.likedPlaces[city]">
+            <igx-slide>
+              <div class="card-column">
+                <igx-card>
+                  <igx-card-header>
+                    <h3 igxCardHeaderTitle>{{likedPlace.name}}</h3>
+                  </igx-card-header>
+                  <igx-card-media (click)="navigateWithState(likedPlace.placeId)" height="300px">
+                    <ng-container>
+                      <img [src]="likedPlace.photo">
+                    </ng-container>
+                  </igx-card-media>
+                </igx-card>
+              </div>
+            </igx-slide>
+          </ng-container>
+        </igx-carousel>
+      </ng-container>
     </igx-tabs-group>
 
     <igx-tabs-group label="Saved">
-      <igx-carousel
-      *ngIf="userPlaces.length"
-      [pause]="true"
-      [loop]="true"
-      [navigation]="true"
-      >
-          <ng-container *ngFor="let savedPlace of userPlaces[0].savedPlaces">
+      <ng-container *ngFor="let city of objectKeys(userPlaces.savedPlaces)">
+        <h5>{{city}}</h5>
+        <igx-carousel [pause]="true" [loop]="true" [navigation]="true">
+          <ng-container *ngFor="let savedPlace of userPlaces.savedPlaces[city]">
             <igx-slide>
               <div class="card-column">
                 <igx-card>
@@ -43,7 +37,7 @@
                     <h3 igxCardHeaderTitle>{{savedPlace.name}}</h3>
                   </igx-card-header>
                   <igx-card-media (click)="navigateWithState(savedPlace.placeId)" height="300px">
-                    <ng-container *ngIf="savedPlace.photo">
+                    <ng-container>
                       <img [src]="savedPlace.photo">
                     </ng-container>
                   </igx-card-media>
@@ -52,5 +46,7 @@
             </igx-slide>
           </ng-container>
         </igx-carousel>
+      </ng-container>
     </igx-tabs-group>
-
+  </igx-tabs>
+</div>
