@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   Location,
   LocationStrategy,
@@ -27,13 +28,21 @@ import { Observable } from 'rxjs';
 export class NavbarComponent implements OnInit {
   currentUser = localStorage.getItem('userId');
   public currentView: Observable<string>;
-  constructor(private _location: Location, private navbar: NavbarService) {}
+  constructor(
+    private _location: Location,
+    private navbar: NavbarService,
+    private route: ActivatedRoute,
+    public router: Router
+  ) {}
 
   public ngOnInit() {
     this.currentView = this.navbar.title;
   }
 
-  public items: Array<{ text: string }> = [{ text: 'Logout' }];
+  public items: Array<{ text: string }> = [
+    { text: 'Stats' },
+    { text: 'Logout' }
+  ];
   public text: string;
   public overlaySettings = {
     positionStrategy: new ConnectedPositioningStrategy({
@@ -46,6 +55,12 @@ export class NavbarComponent implements OnInit {
 
   public onSelection(eventArgs: ISelectionEventArgs) {
     this.text = eventArgs.newSelection.value;
+    if (this.text === 'Logout') {
+      this.logoutUser();
+    }
+    if (this.text === 'Stats') {
+      this.router.navigateByUrl('/stats');
+    }
     eventArgs.cancel = true;
   }
 

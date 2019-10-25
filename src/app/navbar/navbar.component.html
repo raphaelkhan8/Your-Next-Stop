@@ -1,23 +1,15 @@
 <div *ngIf="currentUser">
-
-<div class="drop-down-wrapper">
-  <igx-navbar [title]="currentView | async">
-    <button [igxToggleAction]="menu" [igxToggleOutlet]="outlet" [overlaySettings]="overlaySettings"
-      [igxDropDownItemNavigation]="menu" igxButton="icon">
-      <igx-icon fontSet="material">menu</igx-icon>
-    </button>
-    <igx-drop-down #menu (onSelection)="logoutUser()">
-      <igx-drop-down-item *ngFor="let item of items" [value]="item.text">
-        <div>{{ item.text }}</div>
-      </igx-drop-down-item>
-    </igx-drop-down>
-  </igx-navbar>
+  <div class="drop-down-wrapper">
+    <igx-navbar [title]="currentView | async">
+      <button [igxToggleAction]="menu" [igxToggleOutlet]="outlet" [overlaySettings]="overlaySettings"
+        [igxDropDownItemNavigation]="menu" igxButton="icon">
+        <igx-icon fontSet="material">menu</igx-icon>
+      </button>
+      <igx-drop-down #menu (onSelection)="onSelection($event)">
+        <igx-drop-down-item *ngFor="let item of items" [value]="item.text">
+          <div>{{ item.text }}</div>
+        </igx-drop-down-item>
+      </igx-drop-down>
+    </igx-navbar>
+  </div>
 </div>
-
-  <div class="textContainer">
-    <ng-container *ngIf="text">
-      <label igxLabel>Clicked menu item: {{ text }}</label>
-    </ng-container>
-  </div>
-
-  </div>
