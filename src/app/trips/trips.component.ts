@@ -43,7 +43,7 @@ export class TripsComponent implements OnInit, OnDestroy {
 
   getEta(origin, waypoints, destination) {
     this.trips.getETA(origin, waypoints, destination).subscribe((response: any): void => {
-      this.details.distance = response.distance;
+      this.details.distance = response.distance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
       this.details.duration = response.duration;
     });
   }
