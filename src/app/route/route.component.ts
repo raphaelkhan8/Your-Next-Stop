@@ -78,7 +78,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     // this.submitTrip(this.form);
     this.trips.getETA(this.form.origin, this.form.destination).subscribe((response: any): void => {
       this.milesTraveled = response.distance;
-      console.log(this.milesTraveled);
+      // console.log(this.milesTraveled);
     })
     let formStorage = JSON.stringify(this.form);
     localStorage.setItem('form', formStorage);
