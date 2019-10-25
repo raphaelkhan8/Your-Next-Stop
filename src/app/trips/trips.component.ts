@@ -41,9 +41,9 @@ export class TripsComponent implements OnInit, OnDestroy {
     this.getAllTrips();
   }
 
-  getEta(origin, destination) {
-    this.trips.getETA(origin, destination).subscribe((response: any): void => {
-      this.details.distance = response.distance;
+  getEta(origin, waypoints, destination) {
+    this.trips.getETA(origin, waypoints, destination).subscribe((response: any): void => {
+      this.details.distance = response.distance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
       this.details.duration = response.duration;
     });
   }
@@ -51,14 +51,13 @@ export class TripsComponent implements OnInit, OnDestroy {
   tripDetails(trip) {
     this.details.origin = trip.route.split('->')[0];
     this.details.destination = trip.route.split('->')[1];
-    this.details.wayPoints = trip.wayPoints.filter(waypoint => waypoint.length);
+    this.details.wayPoints = trip.wayPoints.filter(waypoint => waypoint.length).map(waypoint => waypoint.trim().replace(/,/g, ''));
     // ${trip.wayPoints.filter(waypoint => waypoint.length)
     //   .map((waypoint, i) => `Waypoint ${i + 1}: ${waypoint}`).join('\n')}
     // this.details.wayPoints;
     this.details.start = new Date(trip.dateStart.split('T')[0]).toDateString();
     this.details.end = new Date(trip.dateEnd.split('T')[0]).toDateString();
-    this.getEta(this.details.origin, this.details.destination);
-    console.log(this.details);
+    this.getEta(this.details.origin, this.details.wayPoints, this.details.destination);
   }
 
   getAllTrips() {
