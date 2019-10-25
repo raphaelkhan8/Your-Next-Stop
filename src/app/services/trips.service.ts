@@ -21,11 +21,12 @@ export class TripsService {
     return this.http.get(`${this.getUserStatsEndpoint}?id=${user}`);
   }
 
-  getETA(origin, destination) {
+  getETA(origin, waypoints, destination) {
     return this.http.get(this.getEtaEndpoint, {
       params: new HttpParams()
         .set('origin_addresses', origin)
         .set('destination_addresses', destination)
+        .set('waypoints', waypoints)
     });
   }
 }

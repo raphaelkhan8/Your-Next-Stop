@@ -4,8 +4,8 @@ import { TripsService } from '../services/trips.service';
 import { MapComponent } from '../map/map.component';
 import { RouteService } from '../services/route.service';
 import { PreviousRouteService } from '../services/router.service';
-import { 
-  ConnectedPositioningStrategy, 
+import {
+  ConnectedPositioningStrategy,
 } from 'igniteui-angular';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { from } from 'rxjs';
@@ -30,7 +30,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     origin: '',
     destination: '',
     route: '',
-    waypoints: ['', '', '', '', ''],
+    waypoints: [],
     dateStart: new Date(),
     dateEnd: new Date(),
     userId: JSON.parse(this.currentUser)
@@ -61,7 +61,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     private route: RouteService,
     private router: PreviousRouteService,
     private navBar: NavbarService
-  ) {}
+  ) { }
   @ViewChild(MapComponent, { static: false }) public map: MapComponent;
 
   ngOnInit() {
@@ -76,10 +76,6 @@ export class RouteComponent implements OnInit, OnDestroy {
   public onSubmit() {
     this.map.setRoute(this.form);
     // this.submitTrip(this.form);
-    this.trips.getETA(this.form.origin, this.form.destination).subscribe((response: any): void => {
-      this.milesTraveled = response.distance;
-      // console.log(this.milesTraveled);
-    })
     let formStorage = JSON.stringify(this.form);
     localStorage.setItem('form', formStorage);
     // console.log('@@form@@', localStorage.form)
@@ -88,10 +84,11 @@ export class RouteComponent implements OnInit, OnDestroy {
   public submitTrip(form) {
     form.route = this.form.origin + ' -> ' + this.form.destination;
     form.waypoints = this.form.waypoints;
-    // console.log('TRIP ID', this.tripId);
-    // console.log('trip form being sent to ROUTE SERVICE', form);
-    return this.route.saveTrips(form, this.tripId, this.milesTraveled).subscribe(userTrip => {
-      // console.log('Return from submitTrip function', userTrip);
+    this.trips.getETA(this.form.origin, this.form.waypoints, this.form.destination).subscribe((response: any): void => {
+      this.milesTraveled = response.distance;
+      this.route.saveTrips(form, this.tripId, this.milesTraveled).subscribe(userTrip => {
+        console.log('Return from submitTrip function', userTrip);
+      });
     });
   }
 
@@ -135,7 +132,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     // console.log(this.form.dateEnd);
   }
 
-  public autosuggestClick(suggestion) {}
+  public autosuggestClick(suggestion) { }
 
   public fromTripsSubmit() {
     // console.log('PARSLEY', this.parsedTrip);
@@ -145,19 +142,13 @@ export class RouteComponent implements OnInit, OnDestroy {
     this.form.dateEnd = new Date(this.parsedTrip[0].dateEnd);
     this.form.userId = JSON.parse(this.currentUser);
     this.form.route = this.parsedTrip[0].route;
-    this.form.waypoints = this.parsedTrip[0].wayPoints || [''];
+    this.form.waypoints = this.parsedTrip[0].wayPoints.filter(waypoint => waypoint.trim()).map(waypoint => waypoint.replace(/,/g, '')) || [];
     this.tripId = this.parsedTrip[0].id;
-    this.trips.getETA(this.form.origin, this.form.destination).subscribe((response: any): void => {
+    this.trips.getETA(this.form.origin, this.form.waypoints, this.form.destination).subscribe((response: any): void => {
       this.milesTraveled = response.distance;
-      console.log(this.milesTraveled);
     })
-    // console.log(
-    //   'Selected trip info from trip page that will populate this form',
-    //   this.form
-    // );
-    //console.log(this.map.setRoute);
     setTimeout(() => this.map.setRoute(this.form), 1000);
-    // setTimeout(() => localStorage.removeItem('trip'), 1500);
+    setTimeout(() => localStorage.removeItem('trip'), 1500);
   }
 
   addWaypointInput() {

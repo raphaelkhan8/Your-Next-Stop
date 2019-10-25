@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocationService } from '../services/location.service';
 import { NavbarService } from '../services/navbar.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-places',
@@ -9,9 +10,10 @@ import { NavbarService } from '../services/navbar.service';
   styleUrls: ['./places.component.scss']
 })
 export class PlacesComponent implements OnInit {
+  objectKeys = Object.keys;
   userId = localStorage.getItem('userId');
   thumbColor = false;
-  userPlaces = [];
+  userPlaces = null;
 
   constructor(
     private location: LocationService,
@@ -26,7 +28,11 @@ export class PlacesComponent implements OnInit {
 
   getUserPlaces() {
     this.location.getUserPlaces(this.userId).subscribe(userPlace => {
-      this.userPlaces.push(userPlace);
+      console.log('User Places', userPlace);
+      userPlace['likedPlaces'] = _.groupBy(userPlace['likedPlaces'], place => place.city.slice(0, place.city.length-6));
+      userPlace['savedPlaces'] = _.groupBy(userPlace['savedPlaces'], place => place.city.slice(0, place.city.length - 6));
+      this.userPlaces = userPlace;
+      console.log('this.useeeepp', this.userPlaces)
     });
   }
 
