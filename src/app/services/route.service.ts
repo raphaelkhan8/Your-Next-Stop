@@ -12,7 +12,7 @@ export class RouteService {
   private getRoutePositionsEndpoint = `${environment.BASE_API_URL}/routePositions`;
   private autocompleteAddressEndpoint = `${environment.BASE_API_URL}/autocompleteAddress`;
   private addTripEndpoint = `${environment.BASE_API_URL}/addTrip`;
-
+  private routeSuggestionsEndpoint = `${environment.BASE_API_URL}/routeSuggestions`;
   constructor(private http: HttpClient) { }
 
   getRoutePositions(route) {
@@ -48,5 +48,15 @@ export class RouteService {
     return this.http.post(this.addTripEndpoint, form);
   }
 
-  
+  getRouteSuggestions(location1, location2, category) {
+    const loc1 = `${location1.lat},${location1.lng}`;
+    const loc2 = `${location2.lat},${location2.lng}`;
+    return this.http.get(this.routeSuggestionsEndpoint, {
+      params: new HttpParams()
+      .set('loc1', loc1)
+      .set('loc2', loc2)
+      .set('category', category)
+      
+    })
+  }
 }
