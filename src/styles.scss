@@ -7,13 +7,16 @@ $charlotte: #bdeaf2;
 $cloud-burst: #353a50;
 $razzle-dazzle-rose: #ff2ad2;
 
-html,
-body {
+html {
   height: 100%;
+}
+body {
+  min-height: 100%;
   max-width: 414px;
   margin: auto;
   background-color: $bg;
   font-family: 'Roboto', sans-serif;
+  padding-bottom: 70px;
 }
 
 h1 {
