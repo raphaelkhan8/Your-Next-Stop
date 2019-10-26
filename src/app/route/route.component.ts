@@ -69,8 +69,8 @@ export class RouteComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.navBar.updateTitle('Route');
     const previousPage = this.router.getPreviousUrl();
-    // console.log('PASTTTTTT', previousPage);
-    if (previousPage === '/route' && this.parsedTrip.length) {
+    console.log('PASTTTTTT', previousPage, 'parrrrdddd', this.parsedTrip);
+    if (previousPage === '/trips' && this.parsedTrip) {
       this.fromTripsSubmit();
     }
   }
@@ -82,12 +82,12 @@ export class RouteComponent implements OnInit, OnDestroy {
   public submitTrip(form) {
     form.route = this.form.origin + ' -> ' + this.form.destination;
     form.waypoints = this.form.waypoints;
-    // this.trips.getETA(this.form.origin, this.form.waypoints, this.form.destination).subscribe((response: any): void => {
-    //   this.milesTraveled = response.distance;
-    //   this.route.saveTrips(form, this.tripId, this.milesTraveled).subscribe(userTrip => {
-    //     console.log('Return from submitTrip function', userTrip);
-    //   });
-    // });
+    this.trips.getETA(this.form.origin, this.form.waypoints, this.form.destination).subscribe((response: any): void => {
+      this.milesTraveled = response.distance;
+      this.route.saveTrips(form, this.tripId, this.milesTraveled).subscribe(userTrip => {
+        console.log('Return from submitTrip function', userTrip);
+      });
+    });
   }
 
   public onKey(field, index) {
@@ -133,15 +133,15 @@ export class RouteComponent implements OnInit, OnDestroy {
   public autosuggestClick(suggestion) { }
 
   public fromTripsSubmit() {
-    // console.log('PARSLEY', this.parsedTrip);
-    this.form.origin = this.parsedTrip[0].route.split('->')[0];
-    this.form.destination = this.parsedTrip[0].route.split('-> ')[1];
-    this.form.dateStart = new Date(this.parsedTrip[0].dateStart);
-    this.form.dateEnd = new Date(this.parsedTrip[0].dateEnd);
+    console.log('PARSLEY', this.parsedTrip);
+    this.form.origin = this.parsedTrip.route.split('->')[0];
+    this.form.destination = this.parsedTrip.route.split('-> ')[1];
+    this.form.dateStart = new Date(this.parsedTrip.dateStart);
+    this.form.dateEnd = new Date(this.parsedTrip.dateEnd);
     this.form.userId = JSON.parse(this.currentUser);
-    this.form.route = this.parsedTrip[0].route;
-    this.form.waypoints = this.parsedTrip[0].wayPoints.filter(waypoint => waypoint.trim()).map(waypoint => waypoint.replace(/,/g, '')) || [];
-    this.tripId = this.parsedTrip[0].id;
+    this.form.route = this.parsedTrip.route;
+    this.form.waypoints = this.parsedTrip.wayPoints.filter(waypoint => waypoint.trim()).map(waypoint => waypoint.replace(/,/g, '')) || [];
+    this.tripId = this.parsedTrip.id;
     this.trips.getETA(this.form.origin, this.form.waypoints, this.form.destination).subscribe((response: any): void => {
       this.milesTraveled = response.distance;
     })
