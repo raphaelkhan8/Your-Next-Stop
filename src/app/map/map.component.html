@@ -38,7 +38,7 @@
   </agm-marker>
   <ng-container *ngFor="let suggestion of routeSuggestions | async; let i = index">
     <agm-marker 
-    *ngIf="calculateZoom(i)"
+    *ngIf="suggestion.zoomLevel <= zoomLevel"
     (markerClick)="routeMarkerClick(i)" 
     [markerClickable]="true"
     [latitude]="suggestion.lat" 
