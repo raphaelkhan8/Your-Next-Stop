@@ -7,6 +7,7 @@
 [styles]="styles" 
 [disableDefaultUI]="true"
 (mapClick)="showClickedPosition($event)"
+(zoomChange)="zoomLevelChange($event)"
 >
 
   <agm-direction 
@@ -35,9 +36,9 @@
       You are here
     </agm-info-window>
   </agm-marker>
-  <!-- <ng-container *ngIf="routeSuggestions"> -->
+  <ng-container *ngFor="let suggestion of routeSuggestions | async; let i = index">
     <agm-marker 
-    *ngFor="let suggestion of routeSuggestions | async; let i = index"
+    *ngIf="calculateZoom(i)"
     (markerClick)="routeMarkerClick(i)" 
     [markerClickable]="true"
     [latitude]="suggestion.lat" 
@@ -63,7 +64,7 @@
           target="_blank">Open in Google Maps</a>
       </agm-info-window>
     </agm-marker>
-  <!-- </ng-container> -->
+  </ng-container>
 </agm-map>
 
 <!-- '/explore' map -->

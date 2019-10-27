@@ -55,6 +55,7 @@ export class MapComponent implements OnInit, OnDestroy {
   //places near current position
   nearbyPlaces;
   public routeSuggestions: Observable<any>;
+  public zoomLevel: number;
   //endpoint of current view based on Router
   snapshotUrl: string;
   images = [];
@@ -165,6 +166,23 @@ lng: -122.4111976915849
         });
   }
 
+  zoomLevelChange(zoomLevel) {
+    this.zoomLevel = zoomLevel;
+    console.log(zoomLevel);
+  }
+
+  calculateZoom(index) {
+    switch(index) {
+      case index === 0 && this.zoomLevel > 4: return true;
+      case index > 0 && index < 3 && this.zoomLevel > 5: return true;
+      case index === 3 && this.zoomLevel > 6: return true;
+      case index > 3 && index < 6 && this.zoomLevel > 7: return true;
+      case index > 5 && index < 8 && this.zoomLevel > 8: return true;
+      case index > 6 && index < 9 && this.zoomLevel > 9: return true;
+      case index > 8 && this.zoomLevel > 10: return true;
+      default: return false;
+    }
+  }
   ngOnDestroy() {
     //subscription cleanup
     if (this.exploreSubscription) this.exploreSubscription.unsubscribe();
