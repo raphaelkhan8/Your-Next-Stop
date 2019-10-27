@@ -51,14 +51,14 @@ export class MapComponent implements OnInit, OnDestroy {
     }
   };
   //all route points between origin and destination
-  waypoints;
+  public waypoints: Array<string> = [''];
   //places near current position
   nearbyPlaces;
   public routeSuggestions: Observable<any>;
   //endpoint of current view based on Router
   snapshotUrl: string;
   images = [];
-
+  public clickedMarkerIndex: number;
   constructor(
     private router: Router,
     private locationService: LocationService,
@@ -123,10 +123,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   routeMarkerClick(index) {
-    // this.routeSuggestions.forEach((suggestion, i) => {
-    //   if (i === index) suggestion.clicked = true;
-    //   else suggestion.clicked = false;
-    // })
+    this.clickedMarkerIndex = index;
   }
 
   setPlaces(category?: string) {

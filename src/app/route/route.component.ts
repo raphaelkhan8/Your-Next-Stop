@@ -71,7 +71,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     const previousPage = this.router.getPreviousUrl();
     // console.log('PASTTTTTT', previousPage);
     if (previousPage === '/route' && this.parsedTrip.length) {
-      this.fromTripsSubmit();
+      // this.fromTripsSubmit();
     }
   }
 
@@ -170,7 +170,7 @@ export class RouteComponent implements OnInit, OnDestroy {
 
   chooseCategory(selected) {
     this.category = selected;
-    this.map.routeSuggestions = this.route.getRouteSuggestions(this.map.origin, this.map.destination, selected)
+    this.map.routeSuggestions = this.route.getRouteSuggestions(this.map.origin, this.map.destination, this.map.waypoints, selected)
       // .subscribe((routeSuggestions: Array<any>): void => {
       //   console.log(routeSuggestions)
       //   this.map.routeSuggestions = routeSuggestions;

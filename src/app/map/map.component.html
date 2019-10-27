@@ -35,7 +35,7 @@
       You are here
     </agm-info-window>
   </agm-marker>
-  <ng-container *ngIf="routeSuggestions">
+  <!-- <ng-container *ngIf="routeSuggestions"> -->
     <agm-marker 
     *ngFor="let suggestion of routeSuggestions | async; let i = index"
     (markerClick)="routeMarkerClick(i)" 
@@ -43,14 +43,14 @@
     [latitude]="suggestion.lat" 
     [longitude]="suggestion.lng" 
     [iconUrl]="{
-      url: suggestion.clicked ? '../assets/icons/yellow maps marker.png' : '../assets/icons/red maps marker.png',
+      url: clickedMarkerIndex === i ? '../assets/icons/yellow maps marker.png' : '../assets/icons/red maps marker.png',
       scaledSize: {
-          width: 30,
-          height: 48
+          width: 20,
+          height: 35
       }}"
         >
       <agm-info-window
-      *ngIf="suggestion.clicked"
+      *ngIf="clickedMarkerIndex === i"
       [maxWidth]=350
       [disableAutoPan]="true" 
       [isOpen]="true"
@@ -63,7 +63,7 @@
           target="_blank">Open in Google Maps</a>
       </agm-info-window>
     </agm-marker>
-  </ng-container>
+  <!-- </ng-container> -->
 </agm-map>
 
 <!-- '/explore' map -->
