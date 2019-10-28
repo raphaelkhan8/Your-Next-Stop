@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TripsService } from '../services/trips.service';
+import { NavbarService } from '../services/navbar.service';
 
 @Component({
   selector: 'app-stats',
@@ -11,23 +12,23 @@ export class StatsComponent implements OnInit {
   nearbyPlaces = JSON.parse(localStorage.getItem('allUserNearbyPlaces'));
   public stats = null;
 
-  constructor(private trips: TripsService) { }
+  constructor(private trips: TripsService, private navBar: NavbarService) {}
 
   ngOnInit() {
-    console.log(this.nearbyPlaces);
+    this.navBar.updateTitle('Stats');
     this.getStats();
   }
 
   getStats() {
-    this.trips.getStats(this.userId)
-    .subscribe(stats => {
+    this.trips.getStats(this.userId).subscribe(stats => {
       console.log('STATS', stats);
       this.stats = stats;
       if (this.stats.milesTraveled > 999) {
-        this.stats.milesTraveled = this.stats.milesTraveled.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        this.stats.milesTraveled = this.stats.milesTraveled
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         return this.stats;
       }
     });
   }
-
 }
