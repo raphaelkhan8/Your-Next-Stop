@@ -170,6 +170,7 @@ export class RouteComponent implements OnInit, OnDestroy {
 
   chooseCategory(selected) {
     this.category = selected;
+    console.log(this.map.waypoints)
     this.map.routeSuggestions = this.route.getRouteSuggestions(this.map.origin, this.map.destination, this.map.waypoints, selected)
       // .subscribe((routeSuggestions: Array<any>): void => {
       //   console.log(routeSuggestions)

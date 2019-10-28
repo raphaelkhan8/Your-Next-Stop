@@ -51,7 +51,7 @@ export class RouteService {
   getRouteSuggestions(location1, location2, waypoints, category): Observable<any> {
     let waypointsString = '';
     for (let point of waypoints) {
-      if (point.length) waypointsString += point + ';';
+      waypointsString += `${point.location.lat},${point.location.lng};`;
     }
     const loc1 = `${location1.lat},${location1.lng}`;
     const loc2 = `${location2.lat},${location2.lng}`;

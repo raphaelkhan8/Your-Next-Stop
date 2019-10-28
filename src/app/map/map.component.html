@@ -44,7 +44,7 @@
     [latitude]="suggestion.lat" 
     [longitude]="suggestion.lng" 
     [iconUrl]="{
-      url: clickedMarkerIndex === i ? '../assets/icons/yellow maps marker.png' : '../assets/icons/red maps marker.png',
+      url: clickedMarkerIndex === i ? '../assets/icons/yellow maps marker.png' : '../assets/icons/blue maps marker.png',
       scaledSize: {
           width: 20,
           height: 35
@@ -60,6 +60,7 @@
           {{suggestion.name}}
         </h5>
           {{suggestion.address}}<br>
+          User rating: {{suggestion.rating}}<br>
         <a style="font-size:0.9rem;" href="http://maps.google.com/?q={{suggestion.address + suggestion.name}}"
           target="_blank">Open in Google Maps</a>
       </agm-info-window>
