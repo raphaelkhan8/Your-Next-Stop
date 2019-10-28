@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class TripsService {
   private getAllTripsEndpoint = `${environment.BASE_API_URL}/getAllUsersTrips`;
+  private deleteTripEndpoint = `${environment.BASE_API_URL}/removeTrip`;
   private getUserStatsEndpoint = `${environment.BASE_API_URL}/getStats`;
   private getEtaEndpoint = `${environment.BASE_API_URL}/eta`;
 
@@ -28,5 +29,10 @@ export class TripsService {
         .set('destination_addresses', destination)
         .set('waypoints', waypoints)
     });
+  }
+
+  deleteTrip(selectedTrip) {
+    console.log('Trip about to be deleted', selectedTrip);
+    return this.http.post(this.deleteTripEndpoint, selectedTrip);
   }
 }
