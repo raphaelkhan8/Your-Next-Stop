@@ -77,6 +77,7 @@ export class RouteComponent implements OnInit, OnDestroy {
 
   public onSubmit() {
     this.map.setRoute(this.form);
+    this.map.routeSuggestions = from([]);
   }
 
   public submitTrip(form) {
@@ -176,6 +177,13 @@ export class RouteComponent implements OnInit, OnDestroy {
       //   console.log(routeSuggestions)
       //   this.map.routeSuggestions = routeSuggestions;
       // })
+  }
+
+  setWaypoint(location) {
+    if (this.form.waypoints.length) {
+      this.addWaypointInput()
+    }
+    this.form.waypoints.push(location.address);
   }
 
   ngOnDestroy() {

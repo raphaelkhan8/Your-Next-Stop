@@ -28,6 +28,8 @@ export class MapComponent implements OnInit, OnDestroy {
   @Output() placesLoaded = new EventEmitter<string>();
   @Output() imagesLoaded = new EventEmitter<number>();
   @Output() markerClicked = new EventEmitter<number>();
+  @Output() waypointsLoaded = new EventEmitter();
+
   public currentLocationMarkerUrl: string =
     '../assets/icons/currentLocationMarker.png';
   //custom map style"
@@ -171,18 +173,14 @@ lng: -122.4111976915849
     console.log(zoomLevel);
   }
 
-  // calculateZoom(index) {
-  //   switch(index) {
-  //     case index === 0 && this.zoomLevel > 4: return true;
-  //     case index > 0 && index < 3 && this.zoomLevel > 5: return true;
-  //     case index === 3 && this.zoomLevel > 6: return true;
-  //     case index > 3 && index < 6 && this.zoomLevel > 7: return true;
-  //     case index > 5 && index < 8 && this.zoomLevel > 8: return true;
-  //     case index > 6 && index < 9 && this.zoomLevel > 9: return true;
-  //     case index > 8 && this.zoomLevel > 10: return true;
-  //     default: return false;
-  //   }
-  // }
+  addToWaypoints(lat, lng, address) {
+    const location = {
+      latLng: `${lat},${lng}`,
+      address
+    };
+    this.waypointsLoaded.emit(location);
+  }
+
   ngOnDestroy() {
     //subscription cleanup
     if (this.exploreSubscription) this.exploreSubscription.unsubscribe();

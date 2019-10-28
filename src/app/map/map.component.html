@@ -63,6 +63,7 @@
           User rating: {{suggestion.rating}}<br>
         <a style="font-size:0.9rem;" href="http://maps.google.com/?q={{suggestion.address + suggestion.name}}"
           target="_blank">Open in Google Maps</a>
+          <button (click)="addToWaypoints(suggestion.lat, suggestion.lng, suggestion.address)">Add to Waypoints</button>
       </agm-info-window>
     </agm-marker>
   </ng-container>
