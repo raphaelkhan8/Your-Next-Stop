@@ -1,5 +1,6 @@
 import { DetailsComponent } from './../details/details.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { TripsService } from '../services/trips.service';
 import { NavbarService } from '../services/navbar.service';
 @Component({
@@ -26,14 +27,15 @@ export class TripsComponent implements OnInit, OnDestroy {
   public current = [];
   public previous = [];
 
-  constructor(private trips: TripsService, private navBar: NavbarService) {}
+  constructor(private trips: TripsService, private navBar: NavbarService, private router: Router) { }
 
   public editTrip(event, trip) {
     // console.log('TRIP SELECTED FROM TRIPS PAGE GOING INTO LOCALSTORAGE', trip);
     let storageTrip = JSON.stringify(trip);
     localStorage.setItem('trip', storageTrip);
     event.dialog.close();
-    window.location.href = '/route';
+    //window.location.href = '/route';
+    this.router.navigate(['/route']);
   }
 
   ngOnInit() {
@@ -67,15 +69,29 @@ export class TripsComponent implements OnInit, OnDestroy {
         // console.log('Trips RETRIEVED from database', response);
         response.forEach(element => {
           if (element[0].status === 'current') {
-            this.current.push(element);
+            this.current = this.current.concat(element);
           }
           if (element[0].status === 'previous') {
-            this.previous.push(element);
+            this.previous = this.previous.concat(element);
           } else if (element[0].status === 'upcoming') {
-            this.upcoming.push(element);
+            this.upcoming = this.upcoming.concat(element);
           }
         });
       });
+  }
+
+  deleteTrip(trip) {
+    return this.trips.deleteTrip(trip).subscribe(() => {
+      if (trip.status === 'current') {
+        this.current = this.current.filter(currentTrip => currentTrip.id !== trip.id);
+      }
+      if (trip.status === 'upcoming') {
+        this.upcoming = this.upcoming.filter(upcomingTrip => upcomingTrip.id !== trip.id);
+      }
+      if (trip.status === 'previous') {
+        this.previous = this.previous.filter(previousTrip => previousTrip.id !== trip.id);
+      }
+    })
   }
 
   ngOnDestroy(): void {
