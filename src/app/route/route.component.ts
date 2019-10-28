@@ -70,8 +70,8 @@ export class RouteComponent implements OnInit, OnDestroy {
     this.navBar.updateTitle('Route');
     const previousPage = this.router.getPreviousUrl();
     // console.log('PASTTTTTT', previousPage);
-    if (previousPage === '/route' && this.parsedTrip.length) {
-      // this.fromTripsSubmit();
+    if (previousPage === '/trips' && this.parsedTrip) {
+      this.fromTripsSubmit();
     }
   }
 
@@ -134,7 +134,7 @@ export class RouteComponent implements OnInit, OnDestroy {
   public autosuggestClick(suggestion) { }
 
   public fromTripsSubmit() {
-    console.log('PARSLEY', this.parsedTrip);
+    // console.log('PARSLEY', this.parsedTrip);
     this.form.origin = this.parsedTrip.route.split('->')[0];
     this.form.destination = this.parsedTrip.route.split('-> ')[1];
     this.form.dateStart = new Date(this.parsedTrip.dateStart);
@@ -146,7 +146,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     this.trips.getETA(this.form.origin, this.form.waypoints, this.form.destination).subscribe((response: any): void => {
       this.milesTraveled = response.distance;
     })
-    setTimeout(() => this.map.setRoute(this.form), 1000);
+    setTimeout(() => this.map.setRoute(this.form), 500);
     setTimeout(() => localStorage.removeItem('trip'), 1500);
   }
 
