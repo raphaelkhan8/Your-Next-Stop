@@ -69,14 +69,15 @@ export class RouteComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.navBar.updateTitle('Route');
     const previousPage = this.router.getPreviousUrl();
-    console.log('PASTTTTTT', previousPage, 'parrrrdddd', this.parsedTrip);
-    if (previousPage === '/trips' && this.parsedTrip) {
-      this.fromTripsSubmit();
+    // console.log('PASTTTTTT', previousPage);
+    if (previousPage === '/route' && this.parsedTrip.length) {
+      // this.fromTripsSubmit();
     }
   }
 
   public onSubmit() {
     this.map.setRoute(this.form);
+    this.map.routeSuggestions = from([]);
   }
 
   public submitTrip(form) {
@@ -170,11 +171,19 @@ export class RouteComponent implements OnInit, OnDestroy {
 
   chooseCategory(selected) {
     this.category = selected;
-    this.map.routeSuggestions = this.route.getRouteSuggestions(this.map.origin, this.map.destination, selected)
+    console.log(this.map.waypoints)
+    this.map.routeSuggestions = this.route.getRouteSuggestions(this.map.origin, this.map.destination, this.map.waypoints, selected)
       // .subscribe((routeSuggestions: Array<any>): void => {
       //   console.log(routeSuggestions)
       //   this.map.routeSuggestions = routeSuggestions;
       // })
+  }
+
+  setWaypoint(location) {
+    if (this.form.waypoints.length) {
+      this.addWaypointInput()
+    }
+    this.form.waypoints.push(location.address);
   }
 
   ngOnDestroy() {

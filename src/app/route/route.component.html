@@ -2,7 +2,7 @@
 <div class="map-wrapper">
   <div class="row" style="height: 100%">
     <div class="col s12" style="height: 100%">
-      <app-map></app-map>
+      <app-map (waypointsLoaded)="setWaypoint($event)"></app-map>
     </div>
   </div>
 </div>
