@@ -28,6 +28,8 @@ export class MapComponent implements OnInit, OnDestroy {
   @Output() placesLoaded = new EventEmitter<string>();
   @Output() imagesLoaded = new EventEmitter<number>();
   @Output() markerClicked = new EventEmitter<number>();
+  @Output() waypointsLoaded = new EventEmitter();
+
   public currentLocationMarkerUrl: string =
     '../assets/icons/currentLocationMarker.png';
   //custom map style"
@@ -51,14 +53,15 @@ export class MapComponent implements OnInit, OnDestroy {
     }
   };
   //all route points between origin and destination
-  waypoints;
+  public waypoints: Array<string> = [''];
   //places near current position
   nearbyPlaces;
   public routeSuggestions: Observable<any>;
+  public zoomLevel: number;
   //endpoint of current view based on Router
   snapshotUrl: string;
   images = [];
-
+  public clickedMarkerIndex: number;
   constructor(
     private router: Router,
     private locationService: LocationService,
@@ -123,10 +126,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   routeMarkerClick(index) {
-    // this.routeSuggestions.forEach((suggestion, i) => {
-    //   if (i === index) suggestion.clicked = true;
-    //   else suggestion.clicked = false;
-    // })
+    this.clickedMarkerIndex = index;
   }
 
   setPlaces(category?: string) {
@@ -166,6 +166,19 @@ lng: -122.4111976915849
           });
        
         });
+  }
+
+  zoomLevelChange(zoomLevel) {
+    this.zoomLevel = zoomLevel;
+    console.log(zoomLevel);
+  }
+
+  addToWaypoints(lat, lng, address) {
+    const location = {
+      latLng: `${lat},${lng}`,
+      address
+    };
+    this.waypointsLoaded.emit(location);
   }
 
   ngOnDestroy() {

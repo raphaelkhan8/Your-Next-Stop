@@ -7,6 +7,7 @@
 [styles]="styles" 
 [disableDefaultUI]="true"
 (mapClick)="showClickedPosition($event)"
+(zoomChange)="zoomLevelChange($event)"
 >
 
   <agm-direction 
@@ -35,22 +36,22 @@
       You are here
     </agm-info-window>
   </agm-marker>
-  <ng-container *ngIf="routeSuggestions">
+  <ng-container *ngFor="let suggestion of routeSuggestions | async; let i = index">
     <agm-marker 
-    *ngFor="let suggestion of routeSuggestions | async; let i = index"
+    *ngIf="suggestion.zoomLevel <= zoomLevel"
     (markerClick)="routeMarkerClick(i)" 
     [markerClickable]="true"
     [latitude]="suggestion.lat" 
     [longitude]="suggestion.lng" 
     [iconUrl]="{
-      url: suggestion.clicked ? '../assets/icons/yellow maps marker.png' : '../assets/icons/red maps marker.png',
+      url: clickedMarkerIndex === i ? '../assets/icons/yellow maps marker.png' : '../assets/icons/blue maps marker.png',
       scaledSize: {
-          width: 30,
-          height: 48
+          width: 20,
+          height: 35
       }}"
         >
       <agm-info-window
-      *ngIf="suggestion.clicked"
+      *ngIf="clickedMarkerIndex === i"
       [maxWidth]=350
       [disableAutoPan]="true" 
       [isOpen]="true"
@@ -59,8 +60,10 @@
           {{suggestion.name}}
         </h5>
           {{suggestion.address}}<br>
+          User rating: {{suggestion.rating}}<br>
         <a style="font-size:0.9rem;" href="http://maps.google.com/?q={{suggestion.address + suggestion.name}}"
           target="_blank">Open in Google Maps</a>
+          <button (click)="addToWaypoints(suggestion.lat, suggestion.lng, suggestion.address)">Add to Waypoints</button>
       </agm-info-window>
     </agm-marker>
   </ng-container>
