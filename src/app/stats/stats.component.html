@@ -1,45 +1,39 @@
-  <igx-card type="outlined">
-    <div class="h-sample-column">
-      <igx-card-content *ngIf="stats">
-        <igx-card-actions layout="justify">
-          <i class="fas fa-road fa-3x"></i>
-          <h5>{{stats.milesTraveled}} miles traveled</h5>
-        </igx-card-actions>
-      </igx-card-content>
+<div class="card-container">
+  <igx-card *ngIf="stats">
+    <i class="fas fa-road fa-3x"></i>
+    <div class=text>
+      miles traveled
+      <h5>{{stats.milesTraveled}}</h5>
     </div>
   </igx-card>
 
-  <igx-card type="outlined">
-    <div class="h-sample-column">
-      <igx-card-content *ngIf="stats">
-        <igx-card-actions layout="justify">
-          <i class="fas fa-suitcase fa-3x"></i>
-          <h5>{{stats.numberOfTrips}} trips taken</h5>
-        </igx-card-actions>
-      </igx-card-content>
+  <igx-card *ngIf="stats">
+    <i class="fas fa-suitcase fa-3x"></i>
+    <div class=text>
+      trips taken
+      <h5>{{stats.numberOfTrips}}</h5>
     </div>
   </igx-card>
 
-  <igx-card type="outlined">
-    <div class="h-sample-column">
-      <igx-card-content *ngIf="stats">
-        <igx-card-actions layout="justify">
-          <i class="fas fa-city fa-3x"></i>
-          <h5>{{stats.numberOfCities}} cities visited</h5>
-        </igx-card-actions>
-      </igx-card-content>
-    </div>
+  <igx-card *ngIf="stats">
+    <i class="fas fa-city fa-3x"></i>
+    <div class=text>
+      cities visited
+      <h5>{{stats.numberOfCities}}</h5>
+      </div>
   </igx-card>
+</div>
 
-  <igx-card type="outlined">
-    <div class="h-sample-column">
-      <igx-card-content>
+<!-- 
+<igx-card type="outlined">
+  <div class="h-sample-column">
+    <igx-card-content>
+      <span>
         <h4>Top 5 Interests</h4>
-        <igx-card-actions layout="justify">
-          <ul>
-            <li *ngFor="let interest of stats.top5Interests">{{interest}}</li>
-          </ul>
-        </igx-card-actions>
-      </igx-card-content>
-    </div>
-  </igx-card>
+        <ul>
+          <li *ngFor="let interest of stats.top5Interests">{{interest}}</li>
+        </ul>
+      </span>
+    </igx-card-content>
+  </div>
+</igx-card> -->
