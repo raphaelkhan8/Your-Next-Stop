@@ -36,8 +36,9 @@ export class ResultsComponent implements OnInit {
     return this.locationService.getCurrentPosition()
     .subscribe(loc => {
       // console.log('LOCATION NATION', loc);
-      const stubLocation = { coords: {latitude: 47.62005908114151,
-        longitude: -122.32398084206318} }
+      const stubLocation = {
+        coords: { latitude: 29.948661689490685, longitude: -90.07339305901507 }
+      };
 
       this.allPlacesSubscription = this.locationService.getNearbyPlaces(stubLocation, this.snapshotUrl)
       .subscribe(place => {
