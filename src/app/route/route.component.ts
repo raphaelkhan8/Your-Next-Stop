@@ -70,8 +70,8 @@ export class RouteComponent implements OnInit, OnDestroy {
     this.navBar.updateTitle('Route');
     const previousPage = this.router.getPreviousUrl();
     // console.log('PASTTTTTT', previousPage);
-    if (previousPage === '/route' && this.parsedTrip.length) {
-      // this.fromTripsSubmit();
+    if (previousPage === '/trips' && this.parsedTrip) {
+      this.fromTripsSubmit();
     }
   }
 
