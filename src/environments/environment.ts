@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  BASE_API_URL: 'http://ec2-35-173-201-42.compute-1.amazonaws.com:4201'
-  // BASE_API_URL: 'http://localhost:4201',
+  BASE_API_URL: 'http://localhost:4201'
 };
 
 /*

@@ -68,8 +68,8 @@ export class ExploreComponent implements OnInit {
     this.map.setPlaces(selected);
     this.category = selected;
   }
- 
 
+  
   updateNavbar() {
     this.navBar.updateTitle(this.title);
   }

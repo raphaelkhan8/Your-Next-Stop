@@ -45,6 +45,3 @@ testem.log
 .DS_Store
 Thumbs.db
 package-lock.json
-
-#private key
-config.js

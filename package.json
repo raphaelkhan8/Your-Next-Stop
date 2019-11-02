@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "prod": "ng build --prod",
+    "start-dev": "ng serve",
+    "start": "node server.js",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -14,8 +14,8 @@
   "dependencies": {
     "@agm/core": "^1.0.0",
     "@angular/animations": "~8.2.11",
-    "@angular/cli": "~8.3.12",
-    "@angular/common": "~8.2.11",
+    "@angular/cli": "~8.3.17",
+    "@angular/common": "~8.2.13",
     "@angular/compiler": "~8.2.11",
     "@angular/compiler-cli": "~8.2.11",
     "@angular/core": "^8.2.11",
