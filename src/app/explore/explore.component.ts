@@ -26,11 +26,7 @@ export class ExploreComponent implements OnInit {
     private route: ActivatedRoute,
     public router: Router,
     private navBar: NavbarService
-  ) {
-    if (!this.currentUser) {
-      this.router.navigate(['/']);
-    }
-  }
+  ) {}
 
   ngOnInit() {
     // this.shouldLoad = true;
@@ -39,6 +35,9 @@ export class ExploreComponent implements OnInit {
     if (userId && !savedUserId) {
       localStorage.setItem('userId', userId);
       window.location.reload();
+    }
+    if (!this.currentUser) {
+      this.router.navigate(['/']);
     }
     this.updateNavbar();
   }

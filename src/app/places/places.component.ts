@@ -19,7 +19,11 @@ export class PlacesComponent implements OnInit {
     private location: LocationService,
     private router: Router,
     private navBar: NavbarService,
-    ) {}
+    ) {
+    if (!this.userId) {
+      this.router.navigate(['/']);
+    }
+    }
 
   ngOnInit() {
     this.navBar.updateTitle('Places');

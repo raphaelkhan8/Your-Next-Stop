@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TripsService } from '../services/trips.service';
 import { NavbarService } from '../services/navbar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stats',
@@ -12,7 +13,11 @@ export class StatsComponent implements OnInit {
   nearbyPlaces = JSON.parse(localStorage.getItem('allUserNearbyPlaces'));
   public stats = null;
 
-  constructor(private trips: TripsService, private navBar: NavbarService) {}
+  constructor(private trips: TripsService, private navBar: NavbarService, private router: Router) {
+    if (!this.userId) {
+      this.router.navigate(['/']);
+    }
+  }
 
   ngOnInit() {
     this.navBar.updateTitle('Stats');

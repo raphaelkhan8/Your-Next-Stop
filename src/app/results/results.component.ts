@@ -25,7 +25,11 @@ export class ResultsComponent implements OnInit {
     public router: Router,
     private locationService: LocationService,
     private navBar: NavbarService,
-    ) { }
+    ) {
+    if (!this.currentUser) {
+      this.router.navigate(['/']);
+    }
+    }
 
   ngOnInit() {
     this.navBar.updateTitle('All Results');

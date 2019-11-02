@@ -27,7 +27,11 @@ export class TripsComponent implements OnInit, OnDestroy {
   public current = [];
   public previous = [];
 
-  constructor(private trips: TripsService, private navBar: NavbarService, private router: Router) { }
+  constructor(private trips: TripsService, private navBar: NavbarService, private router: Router) {
+    if (!this.currentUser) {
+      this.router.navigate(['/']);
+    }
+  }
 
   public editTrip(event, trip) {
     // console.log('TRIP SELECTED FROM TRIPS PAGE GOING INTO LOCALSTORAGE', trip);
