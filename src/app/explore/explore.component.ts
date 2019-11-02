@@ -20,7 +20,7 @@ export class ExploreComponent implements OnInit {
   public title = 'Your Personalized Stops';
   private personalizedPlacesSubscription: Subscription;
   private currentUser = localStorage.getItem('userId');
-  private category: string;
+  public category: string;
 
   constructor(
     private route: ActivatedRoute,
