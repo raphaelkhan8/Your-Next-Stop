@@ -136,10 +136,10 @@ export class MapComponent implements OnInit, OnDestroy {
         .pipe(
           switchMap(position => {
             this.currentPosition = {
-              lat: 29.948661689490685,
-              lng: -90.07339305901507
-              // lat: position.coords.latitude,
-              // lng: position.coords.longitude
+              // lat: 29.948661689490685,
+              // lng: -90.07339305901507
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
             };
             const p = {
               coords: {
