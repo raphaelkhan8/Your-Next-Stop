@@ -26,7 +26,11 @@ export class ExploreComponent implements OnInit {
     private route: ActivatedRoute,
     public router: Router,
     private navBar: NavbarService
-  ) {}
+  ) {
+    if (!this.currentUser) {
+      this.router.navigate(['/']);
+    }
+  }
 
   ngOnInit() {
     // this.shouldLoad = true;

@@ -1,5 +1,6 @@
 
 import { Component, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { TripsService } from '../services/trips.service';
 import { MapComponent } from '../map/map.component';
 import { RouteService } from '../services/route.service';
@@ -62,8 +63,13 @@ export class RouteComponent implements OnInit, OnDestroy {
     private trips: TripsService,
     private route: RouteService,
     private router: PreviousRouteService,
-    private navBar: NavbarService
-  ) {}
+    private navBar: NavbarService,
+    private routerInstance: Router
+  ) {
+    if (!this.currentUser) {
+      this.routerInstance.navigate(['/']);
+    }
+  }
   
 
   ngOnInit() {
