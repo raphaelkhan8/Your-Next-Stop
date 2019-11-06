@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocationService } from '../services/location.service';
 import { NavbarService } from '../services/navbar.service';
+import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-results',
@@ -36,10 +38,13 @@ export class ResultsComponent implements OnInit {
     return this.locationService.getCurrentPosition()
     .subscribe(loc => {
       // console.log('LOCATION NATION', loc);
-      const stubLocation = { coords: {latitude: 47.62005908114151,
-        longitude: -122.32398084206318} }
+      // const stubLocation = { coords: {latitude: 47.62005908114151,
+      //   longitude: -122.32398084206318} }
 
-      this.allPlacesSubscription = this.locationService.getNearbyPlaces(stubLocation, this.snapshotUrl)
+      this.allPlacesSubscription = this.locationService.getCurrentPosition()
+      .pipe(
+        switchMap((pos): Observable<any> => this.locationService.getNearbyPlaces(pos, this.snapshotUrl))
+      )
       .subscribe(place => {
         this.allPlaces.push(place);
         console.log('ALL PLACES', this.allPlaces[0]);

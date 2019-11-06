@@ -74,18 +74,22 @@ export class MapComponent implements OnInit, OnDestroy {
     //if explore view is active, populates currentposition and nearby locations
     if (this.snapshotUrl === '/explore') {
       this.exploreSubscription = this.setPlaces();
-        
+      // this.currentPosition = {
+      //   lat: 29.948541105522256, lng: -90.07328461341694
+      // }
     }
     //subscribes to currentlocation only
     if (this.snapshotUrl === '/route') {
-      this.currentLocationSubscription = this.locationService
-        .getCurrentPosition()
-        .subscribe(position => {
-          this.currentPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-        });
+      this.currentPosition = {
+        lat: 29.948541105522256, lng: -90.07328461341694
+      }
+      // this.currentLocationSubscription = this.locationService.getCurrentPosition()
+      //   .subscribe(position => {
+      //     this.currentPosition = {
+      //       lat: position.coords.latitude,
+      //       lng: position.coords.longitude
+      //     };
+      //   });
     }
   }
   //for conveniently getting lat, lng from map click
@@ -136,10 +140,9 @@ export class MapComponent implements OnInit, OnDestroy {
         .pipe(
           switchMap(position => {
             this.currentPosition = {
-              lat: 37.776429770772005,
-lng: -122.4111976915849
-              // lat: position.coords.latitude,
-              // lng: position.coords.longitude
+              // lat: 29.948541105522256, lng: -90.07328461341694
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
             };
             const p = {
               coords: {
