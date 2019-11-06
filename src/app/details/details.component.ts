@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router'
 import { LocationService } from '../services/location.service';
 import { map, take } from 'rxjs/operators';
@@ -30,7 +30,9 @@ export class DetailsComponent implements OnInit {
   };
   selectedPlacePhoto: null;
   currentUser = localStorage.getItem('userId');
-
+  currentLocationSubscription: Subscription;
+  currentLocation;
+  
   constructor(
     public activatedRoute: ActivatedRoute,
     private location: LocationService,
@@ -54,7 +56,9 @@ export class DetailsComponent implements OnInit {
         )
     this.state$.subscribe(state => 
       this.getPlaceInfo(state));
-      
+    this.currentLocationSubscription = this.location
+      .getCurrentPosition()
+      .subscribe(position => this.currentLocation = position);
 }
 
   getPlaceInfo(place) {
@@ -73,7 +77,6 @@ export class DetailsComponent implements OnInit {
         this.selectedPlaceInfo.status = 'saved';
         this.saveColor = true;
       } 
-      console.log(this.selectedPlaceInfo)
     })
   }
 
@@ -104,11 +107,8 @@ export class DetailsComponent implements OnInit {
         this.selectedPlaceInfo.status = 'saved';
       }
     }
-    console.log(action)
     this.location.voteInterest(place, action, this.currentUser)
-      .subscribe(response => {
-        console.log('UPVOTE response', response);
-      });
+      .subscribe();
   }
 
   formatPhoneNumber(number) {

@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { TripsService } from '../services/trips.service';
 import { MapComponent } from '../map/map.component';
@@ -69,7 +68,6 @@ export class RouteComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.navBar.updateTitle('Route');
     const previousPage = this.router.getPreviousUrl();
-    // console.log('PASTTTTTT', previousPage);
     if (previousPage === '/trips' && this.parsedTrip) {
       this.fromTripsSubmit();
     }
@@ -101,7 +99,6 @@ export class RouteComponent implements OnInit, OnDestroy {
         .pipe(
           debounceTime(250),
           switchMap(text => {
-            // console.log('FORMMMMM', this.form);
             if (field === 'origin') {
               return this.route.autoSuggestion(input, this.map.currentPosition);
             } else {
@@ -110,7 +107,6 @@ export class RouteComponent implements OnInit, OnDestroy {
           })
         )
         .subscribe((suggestions: any) => {
-          // console.log(suggestions)
           this.suggestions = suggestions;
         });
     }
@@ -128,13 +124,11 @@ export class RouteComponent implements OnInit, OnDestroy {
       this.form.dateStart = value;
     }
     this.form.dateEnd = value;
-    // console.log(this.form.dateEnd);
   }
 
   public autosuggestClick(suggestion) { }
 
   public fromTripsSubmit() {
-    // console.log('PARSLEY', this.parsedTrip);
     this.form.origin = this.parsedTrip.route.split('->')[0];
     this.form.destination = this.parsedTrip.route.split('-> ')[1];
     this.form.dateStart = new Date(this.parsedTrip.dateStart);
@@ -173,10 +167,6 @@ export class RouteComponent implements OnInit, OnDestroy {
     this.category = selected;
     console.log(this.map.waypoints)
     this.map.routeSuggestions = this.route.getRouteSuggestions(this.map.origin, this.map.destination, this.map.waypoints, selected)
-      // .subscribe((routeSuggestions: Array<any>): void => {
-      //   console.log(routeSuggestions)
-      //   this.map.routeSuggestions = routeSuggestions;
-      // })
   }
 
   setWaypoint(location) {
