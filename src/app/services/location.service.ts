@@ -18,6 +18,7 @@ export class LocationService {
   constructor(private http: HttpClient) { }
   
   public getCurrentPosition(): Observable<any> {
+    //stubbed location for bypassing navigator.geolocation calls due to inconsistency of availability
     return from([{coords: {
       latitude: 29.948541105522256, 
       longitude: -90.07328461341694
@@ -87,10 +88,7 @@ export class LocationService {
       .set('longitude', coordinates.lng)
       .set('name', coordinates.name)
     })
-    // return this.http.get(this.getPlacePhotoEndpoint, {
-    //   responseType: "blob",
-    //   params: new HttpParams().set('ref', photoRef)
-    // })
+
   }
 
   public getPlaceInfo(place, userId) {

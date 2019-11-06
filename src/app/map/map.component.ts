@@ -30,8 +30,6 @@ export class MapComponent implements OnInit, OnDestroy {
   @Output() markerClicked = new EventEmitter<number>();
   @Output() waypointsLoaded = new EventEmitter();
 
-  public currentLocationMarkerUrl: string =
-    '../assets/icons/currentLocationMarker.png';
   //custom map style"
   styles = mapStyle;
   //geolocation properties
@@ -54,7 +52,7 @@ export class MapComponent implements OnInit, OnDestroy {
   };
   //all route points between origin and destination
   public waypoints: Array<string> = [''];
-  //places near current position
+ 
   nearbyPlaces;
   public routeSuggestions: Observable<any>;
   public zoomLevel: number;
@@ -74,22 +72,19 @@ export class MapComponent implements OnInit, OnDestroy {
     //if explore view is active, populates currentposition and nearby locations
     if (this.snapshotUrl === '/explore') {
       this.exploreSubscription = this.setPlaces();
-      // this.currentPosition = {
-      //   lat: 29.948541105522256, lng: -90.07328461341694
-      // }
     }
     //subscribes to currentlocation only
     if (this.snapshotUrl === '/route') {
-      this.currentPosition = {
-        lat: 29.948541105522256, lng: -90.07328461341694
-      }
-      // this.currentLocationSubscription = this.locationService.getCurrentPosition()
-      //   .subscribe(position => {
-      //     this.currentPosition = {
-      //       lat: position.coords.latitude,
-      //       lng: position.coords.longitude
-      //     };
-      //   });
+      // this.currentPosition = {
+      //   lat: 29.948541105522256, lng: -90.07328461341694
+      // }
+      this.currentLocationSubscription = this.locationService.getCurrentPosition()
+        .subscribe(position => {
+          this.currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+        });
     }
   }
   //for conveniently getting lat, lng from map click
@@ -106,7 +101,7 @@ export class MapComponent implements OnInit, OnDestroy {
         this.waypoints = routePositions.splice(2);
       });
   }
-  //gets top photo for each place
+
   getPlacePhoto(placeCoords, index) {
       this.imageSubscription = this.locationService
         .getPlacePhoto(placeCoords)
@@ -165,7 +160,6 @@ export class MapComponent implements OnInit, OnDestroy {
               name: place.name
             };
             this.getPlacePhoto(placeCoords, i);
-            // this.getPlacePhoto(place.photos, i)
           });
        
         });
@@ -173,7 +167,6 @@ export class MapComponent implements OnInit, OnDestroy {
 
   zoomLevelChange(zoomLevel) {
     this.zoomLevel = zoomLevel;
-    console.log(zoomLevel);
   }
 
   addToWaypoints(lat, lng, address) {
